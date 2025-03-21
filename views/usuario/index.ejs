@@ -4,30 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de empleados</title>
+    <title>Lista de usuarios</title>
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
 
 <body>
-    <h1>Lista de empleados</h1>
-    <a href="/crearempleado">Crear empleado</a>
+    <h1>Lista de usuarios</h1>
+    <a href="/crearusuario">Crear usuario</a>
     <table>
         <thead>
             <tr>
                 <th>Código</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
-                <th>Fecha de pago</th>
-                <th>Horas trabajados por mes</th>
-                <th>Valor por hora</th>
-                <th>Monto</th>
+                <th>Correo Electrónico</th>
+        
+                <th>Telefono</th>
+                <th>Fecha de nacimiento</th>
+                <th>Género</th>
+                <th>Estado</th>
+                <th>Tipo</th>
                 <th></th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <% empleados.forEach((dato)=>{ %>
+            <% usuarios.forEach((dato)=>{ %>
                 <tr>
                     <td>
                         <%= dato.codigo %>
@@ -39,23 +42,29 @@
                         <%= dato.apellido %>
                     </td>
                     <td>
-                        <%= dato.fechapago %>
+                        <%= dato.correoelectronico %>
                     </td>
                     <td>
-                        <%= dato.horastrabajadasmes%>
+                        <%= dato.telefono %>
                     </td>
                     <td>
-                        <%= dato.valorhora %>
+                        <%= dato.fecha_nacimiento %>
                     </td>
                     <td>
-                        <%= dato.monto %>
+                        <%= dato.genero %>
                     </td>
-
-                    <td><a href="/pago/<%= dato.codigo %>">Pago</a></td>
-                    <td><a href="/retiro/<%= dato.codigo %>">Retiro</a></td>
-                    <td><a href="/deposito/<%= dato.codigo %>">Depósito</a></td>
+                    <td>
+                        <%= dato.estado %>
+                    </td>
+                    <td>
+                        <%= dato.tipo %>
+                    </td>
+                    <td><a href="/ver/<%= dato.codigo %>">Ver</a></td>
+                    <td><a href="/editar/<%= dato.codigo %>">Editar</a></td>
+                    <td><a href="/desactivar/<%= dato.codigo %>">Desactivar</a></td>
                 </tr>
                 <% }) %>
         </tbody>
+        <a href="/usuariosdes">Ver usuarios desactivados</a>
     </table>
 </html>
