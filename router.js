@@ -129,4 +129,22 @@ router.get('/crearpago/:id', (req, res) => {
 });
 router.post('/savepago', metodos.savepago);
 
+
+
+
+///Maquinassss
+
+router.get('/maquinas', (req, res) => {
+    res.render('maquinas/index');
+});
+
+router.get('/marca', (req, res) => {
+    res.render('marca/index');
+});
+
+router.get('/tipo', (req, res) => {
+    res.render('tipo/index');
+});
+
+
 module.exports = router;
