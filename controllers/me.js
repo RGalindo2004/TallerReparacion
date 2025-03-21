@@ -20,3 +20,25 @@ exports.saveusuario=(req,res) => {
         }
     });
 }
+
+exports.disableusuario=(req,res) => {
+    const codigo = req.body.codigo;
+    conexion.query('UPDATE usuario SET estado = "INA" WHERE codigo = ?',[codigo],(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/usuariosdes');
+        }
+    });
+}
+
+exports.enableusuario=(req,res) => {
+    const codigo = req.body.codigo;
+    conexion.query('UPDATE usuario SET estado = "ACT" WHERE codigo = ?',[codigo],(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/usuarios');
+        }
+    });
+}

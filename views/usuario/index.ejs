@@ -31,7 +31,7 @@
             </tr>
         </thead>
         <tbody>
-            <% usuarios.forEach((dato)=>{ %>
+            <% usuario.forEach((dato)=>{ %>
                 <tr>
                     <td>
                         <%= dato.codigo %>
@@ -60,9 +60,9 @@
                     <td>
                         <%= dato.tipo %>
                     </td>
-                    <td><a href="/ver/<%= dato.codigo %>">Ver</a></td>
-                    <td><a href="/editar/<%= dato.codigo %>">Editar</a></td>
-                    <td><a href="/desactivar/<%= dato.codigo %>">Desactivar</a></td>
+                    <td><a href="/verusuario/<%= dato.codigo %>">Ver</a></td>
+                    <td><a href="/editarusuario/<%= dato.codigo %>">Editar</a></td>
+                    <td><a href="/desactivarusuario/<%= dato.codigo %>">Desactivar</a></td>
                 </tr>
                 <% }) %>
         </tbody>

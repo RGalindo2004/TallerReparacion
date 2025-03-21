@@ -32,6 +32,9 @@ router.get('/menu', (req, res) => {
     res.render('index');
 });
 
+const metodos = require('./controllers/me');
+
+//USUARIOS
 router.get('/usuarios', (req, res) => {
     conexion.query("SELECT * FROM usuario WHERE estado = 'ACT'", (error, resultado) => {
         if (error) {
@@ -39,7 +42,7 @@ router.get('/usuarios', (req, res) => {
             return;
         }
 
-        res.render('usuario/index', { usuarios: resultado });
+        res.render('usuario/index', { usuario: resultado });
     });
 });
 
@@ -50,7 +53,7 @@ router.get('/usuariosdes', (req, res) => {
             return;
         }
 
-        res.render('usuario/indexdes', { usuarios: resultado });
+        res.render('usuario/indexdes', { usuario: resultado });
     });
 });
 
@@ -67,12 +70,34 @@ router.get('/crearusuario', (req, res) => {
                 return;
             }
 
-            res.render('usuario/crear', { usuarios: resultadoUsuario, tipos: resultadoTipo });
+            res.render('usuario/crear', { usuario: resultadoUsuario, tipos: resultadoTipo });
         });
     });
 });
-
-const metodos = require('./controllers/me');
 router.post('/saveusuario', metodos.saveusuario);
+
+router.get('/desactivarusuario/:id',(req, res)=>{
+    const codigo = req.params.id;
+    conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        res.render('usuario/desactivar', { usuario: resultado[0]});
+    });
+});
+router.post('/disableusuario', metodos.disableusuario);
+
+router.get('/activarusuario/:id',(req, res)=>{
+    const codigo = req.params.id;
+    conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        res.render('usuario/activar', { usuario: resultado[0]});
+    });
+});
+router.post('/enableusuario', metodos.enableusuario);
 
 module.exports = router;
