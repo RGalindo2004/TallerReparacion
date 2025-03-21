@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de empleados</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body>
+    <h1>Lista de empleados</h1>
+    <a href="/crearempleado">Crear empleado</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha de pago</th>
+                <th>Horas trabajados por mes</th>
+                <th>Valor por hora</th>
+                <th>Monto</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% empleados.forEach((dato)=>{ %>
+                <tr>
+                    <td>
+                        <%= dato.codigo %>
+                    </td>
+                    <td>
+                        <%= dato.nombre %>
+                    </td>
+                    <td>
+                        <%= dato.apellido %>
+                    </td>
+                    <td>
+                        <%= dato.fechapago %>
+                    </td>
+                    <td>
+                        <%= dato.horastrabajadasmes%>
+                    </td>
+                    <td>
+                        <%= dato.valorhora %>
+                    </td>
+                    <td>
+                        <%= dato.monto %>
+                    </td>
+
+                    <td><a href="/pago/<%= dato.codigo %>">Pago</a></td>
+                    <td><a href="/retiro/<%= dato.codigo %>">Retiro</a></td>
+                    <td><a href="/deposito/<%= dato.codigo %>">Depósito</a></td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</html>
