@@ -27,3 +27,6 @@ INSERT INTO tipo_usuario (codigo, nombre) VALUES
 (2, 'Tecnico'),
 (3, 'Supervisor'),
 (4, 'Administrador');
+
+INSERT INTO usuario (codigo, nombre, apellido, correoelectronico, contrasena, telefono, fecha_nacimiento, genero, estado, tipo) 
+VALUES (1, 'Admin', 'Admin', 'admin@admin.com', 'password', '12345678', '1990-01-01', 'M', 'ACT', 'Administrador');
