@@ -42,3 +42,24 @@ exports.enableusuario=(req,res) => {
         }
     });
 }
+
+exports.editusuario=(req,res) => {
+    const codigo = req.body.codigo;
+    const nombre = req.body.nombre;
+    const apellido = req.body.apellido;
+    const correoelectronico = req.body.correoelectronico;
+    const contrasena = req.body.contrasena;
+    const telefono = req.body.telefono;
+    const fecha_nacimiento = req.body.fecha_nacimiento;
+    const genero = req.body.genero;
+    const estado = req.body.estado;
+    const tipo = req.body.tipo;
+
+    conexion.query('UPDATE usuario SET nombre = ?, apellido = ?, correoelectronico = ?, contrasena = ?, telefono = ?, fecha_nacimiento = ?, genero = ?, estado = ?, tipo = ? WHERE codigo = ?',[nombre,apellido,correoelectronico,contrasena,telefono,fecha_nacimiento,genero,estado,tipo,codigo],(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/usuarios');
+        }
+    });
+}

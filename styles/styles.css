@@ -1,3 +1,36 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #ddd;
+}
+
+.bienvenida h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.logout-btn {
+    display: inline-block;
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f8f9fa;
@@ -129,3 +162,4 @@ a:hover {
     background-color: blueviolet;
     transform: translateY(-2px);
 }
+

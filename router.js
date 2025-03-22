@@ -32,6 +32,10 @@ router.get('/menu', (req, res) => {
     res.render('index');
 });
 
+router.get('/logout', (req, res) => {
+    res.redirect('/');
+});
+
 const metodos = require('./controllers/me');
 
 //USUARIOS
@@ -99,5 +103,28 @@ router.get('/activarusuario/:id',(req, res)=>{
     });
 });
 router.post('/enableusuario', metodos.enableusuario);
+
+router.get('/editarusuario/:id',(req, res)=>{
+    const codigo = req.params.id;
+    conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        res.render('usuario/editar', { usuario: resultado[0]});
+    });
+});
+router.post('/editusuario', metodos.editusuario);
+
+router.get('/verusuario/:id',(req, res)=>{
+    const codigo = req.params.id;
+    conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        res.render('usuario/ver', { usuario: resultado[0]});
+    });
+});
 
 module.exports = router;

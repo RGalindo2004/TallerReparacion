@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desactivar usuario</title>
+    <title>Ver usuario</title>
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
 
@@ -13,8 +13,8 @@
 </header>
 
 <body>
-    <h1>Desactivar usuario de <%= usuario.nombre %> <%= usuario.apellido %> (<%= usuario.codigo %>)</h1>
-    <form action="/disableusuario" method="POST">
+    <h1>Ver usuario de <%= usuario.nombre %> <%= usuario.apellido %> (<%= usuario.codigo %>)</h1>
+    <form>
 
         <input type="hidden" name="codigo" id="codigo" value="<%= usuario.codigo %>">
 
@@ -29,12 +29,20 @@
 
         <label for="telefono">Telefono</label>
         <input type="text" name="telefono" id="telefono" value="<%= usuario.telefono %>" readonly>
+
+        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" 
+        value="<%= usuario.fecha_nacimiento ? usuario.fecha_nacimiento.toISOString().split('T')[0] : '' %>" readonly>
+
+        <label for="genero">Género</label>
+        <input type="text" name="genero" id="genero" value="<%= usuario.genero %>" readonly>
+
+        <label for="estado">Estado</label>
+        <input type="text" name="estado" id="estado" value="<%= usuario.estado %>" required>
         
         <label for="tipo">Tipo de usuario</label>
-        <input type="text" name="tipo" id="tipo" value="<%= usuario.tipo %>" readonly>
+        <input type="text" name="tipo" id="tipo" value="<%= usuario.tipo %>" required>
 
-        <button type="submit">Desactivar</button>
-        <a href="/usuarios">Cancelar</a>
+        <a href="/usuarios">Volver</a>
     </form>
 </body>
 </html>
