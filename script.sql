@@ -30,3 +30,27 @@ INSERT INTO tipo_usuario (codigo, nombre) VALUES
 
 INSERT INTO usuario (codigo, nombre, apellido, correoelectronico, contrasena, telefono, fecha_nacimiento, genero, estado, tipo) 
 VALUES (1, 'Admin', 'Admin', 'admin@admin.com', 'password', '12345678', '1990-01-01', 'M', 'ACT', 'Administrador');
+
+CREATE TABLE tipo_equipo (
+    codigo INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE equipo (
+    codigo INT PRIMARY KEY AUTO_INCREMENT,
+    numero_serie VARCHAR(50) NOT NULL UNIQUE,
+    marca VARCHAR(50) NOT NULL,
+    modelo VARCHAR(50) NOT NULL,
+    descripcion TEXT,
+    estado ENUM('DISPONIBLE', 'ASIGNADO', 'EN_REPARACION', 'DESCARTADO') NOT NULL DEFAULT 'DISPONIBLE',
+    tipo_equipo VARCHAR(30) NOT NULL,
+
+    FOREIGN KEY (tipo_equipo) REFERENCES tipo_equipo(nombre) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO tipo_equipo (codigo, nombre) VALUES 
+(1, 'Laptop'),
+(2, 'Desktop'),
+(3, 'Impresora'),
+(4, 'Celular'),
+(5, 'Tablet');
