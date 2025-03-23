@@ -119,3 +119,19 @@ exports.edittipoequipo=(req,res) => {
         }
     });
 }
+
+//ASIGNACIÓN DE EQUIPOS
+exports.saveasignacion_equipo=(req,res) => {
+    const equipo_codigo = req.body.equipo_codigo;
+    const tecnico_codigo = req.body.tecnico_codigo;
+    const fecha_asignacion = req.body.fecha_asignacion;
+    const estado = req.body.estado;
+
+    conexion.query('INSERT INTO asignacion_equipo SET ?',{equipo_codigo:equipo_codigo,usuario_codigo:tecnico_codigo,fecha_asignacion:fecha_asignacion,estado:estado},(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/asignacion_equipo');
+        }
+    });
+}

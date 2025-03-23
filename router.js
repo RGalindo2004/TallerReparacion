@@ -106,15 +106,25 @@ router.post('/enableusuario', metodos.enableusuario);
 
 router.get('/editarusuario/:id', (req, res) => {
     const codigo = req.params.id;
-    conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultado) => {
+    conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultadoUsuario) => {
         if (error) {
-            console.log(error);
+            console.error('Error en la consulta de usuario:', error);
+            res.status(500).send('Error en la consulta de usuario');
             return;
         }
-        res.render('usuario/editar', { usuario: resultado[0] });
+
+        conexion.query('SELECT * FROM tipo_usuario', (error, resultadoTipo) => {
+            if (error) {
+                console.error('Error en la consulta de tipos de usuario:', error);
+                res.status(500).send('Error en la consulta de tipos de usuario');
+                return;
+            }
+            res.render('usuario/editar', { usuario: resultadoUsuario[0], tipos: resultadoTipo });
+        });
     });
 });
 router.post('/editusuario', metodos.editusuario);
+
 
 router.get('/verusuario/:id', (req, res) => {
     const codigo = req.params.id;
@@ -204,5 +214,51 @@ router.get('/editartipoequipo/:id', (req, res) => {
     });
 });
 router.post('/edittipoequipo', metodos.edittipoequipo);
+
+//ASIGNACIÓN DE EQUIPOS
+router.get('/asignacion_equipo', (req, res) => {
+    const query = `
+        SELECT 
+            a.codigo, 
+            CONCAT(e.marca, ' - ', e.numero_serie) AS equipo, 
+            CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
+            a.fecha_asignacion, 
+            a.estado
+        FROM asignacion_equipo a
+        JOIN equipo e ON a.equipo_codigo = e.codigo
+        JOIN usuario u ON a.usuario_codigo = u.codigo
+        WHERE u.tipo = 'Tecnico'
+    `;
+
+    conexion.query(query, (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+
+        res.render('asignacion_equipo/index', { asignacion_equipo: resultado });
+    });
+});
+
+router.get('/crearasignacion', (req, res) => {
+    conexion.query('SELECT codigo, CONCAT(marca, " - ", numero_serie) AS equipo FROM equipo WHERE estado = "DISPONIBLE"', 
+    (errorEquipos, equipos) => {
+        if (errorEquipos) {
+            console.log(errorEquipos);
+            return;
+        }
+
+        conexion.query('SELECT codigo, CONCAT(nombre, " ", apellido) AS tecnico FROM usuario WHERE tipo = "Tecnico"', 
+        (errorTecnicos, tecnicos) => {
+            if (errorTecnicos) {
+                console.log(errorTecnicos);
+                return;
+            }
+
+            res.render('asignacion_equipo/crear', { equipos, tecnicos });
+        });
+    });
+});
+router.post('/saveasignacion_equipo', metodos.saveasignacion_equipo);
 
 module.exports = router;

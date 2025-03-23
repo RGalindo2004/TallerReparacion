@@ -54,3 +54,15 @@ INSERT INTO tipo_equipo (codigo, nombre) VALUES
 (3, 'Impresora'),
 (4, 'Celular'),
 (5, 'Tablet');
+
+CREATE TABLE asignacion_equipo (
+    codigo INT PRIMARY KEY AUTO_INCREMENT,
+    equipo_codigo INT NOT NULL,
+    usuario_codigo INT NOT NULL,
+    fecha_asignacion DATETIME NOT NULL DEFAULT NOW(),
+    estado ENUM('ACTIVO', 'FINALIZADO') NOT NULL DEFAULT 'ACTIVO',
+
+    FOREIGN KEY (equipo_codigo) REFERENCES equipo(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (usuario_codigo) REFERENCES usuario(codigo) ON DELETE CASCADE ON UPDATE CASCADE
+);
+

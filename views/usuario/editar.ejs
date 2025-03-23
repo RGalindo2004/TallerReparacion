@@ -45,7 +45,13 @@
         <input type="hidden" name="estado" id="estado" value="<%= usuario.estado %>">
         
         <label for="tipo">Tipo de usuario</label>
-        <input type="text" name="tipo" id="tipo" value="<%= usuario.tipo %>" required>
+        <select name="tipo" id="tipo">
+            <% tipos.forEach((dato) => { %>
+                <option value="<%= dato.nombre %>">
+                    <%= dato.nombre %>
+                </option>
+                <% }); %>
+        </select>
 
         <button type="submit">Actualizar</button>
         <a href="/usuarios">Cancelar</a>

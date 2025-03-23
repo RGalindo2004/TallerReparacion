@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar equipo</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Asignar equipo</h1>
+    <form action="/saveasignacion_equipo" method="post">
+        
+        <label for="equipo_codigo">Equipo</label>
+        <select name="equipo_codigo" id="equipo_codigo" required>
+            <% equipos.forEach(equipo => { %>
+                <option value="<%= equipo.codigo %>"><%= equipo.equipo %></option>
+            <% }); %>
+        </select>
+    
+        <label for="tecnico_codigo">Técnico</label>
+        <select name="tecnico_codigo" id="tecnico_codigo" required>
+            <% tecnicos.forEach(tecnico => { %>
+                <option value="<%= tecnico.codigo %>"><%= tecnico.tecnico %></option>
+            <% }); %>
+        </select>
+    
+        <input type="hidden" name="fecha_asignacion" value="<%= new Date().toLocaleString('sv-SE', { timeZone: 'America/Tegucigalpa' }).replace(' ', 'T') %>" required>
+    
+        <input type="hidden" name="estado" id="estado" value="ACTIVO">
+
+        <button type="submit">Asignar equipo</button>
+    </form>
+    
+</body>
+</html>
