@@ -15,8 +15,7 @@
 
 <body>
     <h1>Asignaciones de los equipos</h1>
-    <a href="/crearasignacion">Asignar equipo a tecnico</a>
-    <a href="/asignacion_equipofin">Ver asignaciones finalizadas</a>
+    <a href="/asignacion_equipo">Ver asignaciones activas</a>
     <table>
         <thead>
             <tr>
@@ -26,7 +25,6 @@
                 <th>Fecha de asignación</th>
                 <th>Fecha de finalización</th>
                 <th>Estado</th>
-                <th></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -48,14 +46,13 @@
                         <%= dato.fecha_asignacion %>
                     </td>
                     <td>
-                        En progreso...
+                        <%= dato.fecha_finalizacion %>
                     </td>
                     <td>
                         <%= dato.estado %>
                     </td>
-                    <td><a href="/verasignacion/<%= dato.codigo %>">Ver</a></td>
-                    <td><a href="/editarasignacion/<%= dato.codigo %>">Editar</a></td>
-                    <td><a href="/finalizarasignacion/<%= dato.codigo %>">Finalizar</a></td>
+                    <td><a href="/verasignacionfin/<%= dato.codigo %>">Ver</a></td>
+                    <td><a href="/desfinalizarasignacion/<%= dato.codigo %>">Deshacer finalización</a></td>
                 </tr>
                 <% }) %>
         </tbody>

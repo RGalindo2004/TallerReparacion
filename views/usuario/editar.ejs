@@ -31,8 +31,9 @@
         <input type="password" name="contrasena" id="contrasena" value="<%= usuario.contrasena%>" required>
 
         <label for="telefono">Telefono</label>
-        <input type="text" name="telefono" id="telefono" value="<%= usuario.telefono %>" required>
+        <input type="tel" name="telefono" id="telefono" value="<%= usuario.telefono %>" required>
 
+        <label for="fecha_nacimiento">Fecha de nacimiento</label>
         <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" 
         value="<%= usuario.fecha_nacimiento ? usuario.fecha_nacimiento.toISOString().split('T')[0] : '' %>" required>
 

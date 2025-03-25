@@ -136,9 +136,21 @@ exports.saveasignacion_equipo=(req,res) => {
     });
 }
 
-exports.deleteasignacion_equipo=(req,res) => {
+exports.endasignacion_equipo=(req,res) => {
     const codigo = req.body.codigo;
-    conexion.query('DELETE FROM asignacion_equipo WHERE codigo = ?',[codigo],(error,results)=>{
+    const fecha_finalizacion = req.body.fecha_finalizacion;
+    conexion.query('UPDATE asignacion_equipo SET estado = "FINALIZADO", fecha_finalizacion = ? WHERE codigo = ?',[fecha_finalizacion, codigo],(error)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/asignacion_equipo');
+        }
+    });
+}
+
+exports.undoendasignacion_equipo=(req,res) => {
+    const codigo = req.body.codigo;
+    conexion.query('UPDATE asignacion_equipo SET estado = "ACTIVO", fecha_finalizacion = NULL WHERE codigo = ?',[codigo],(error)=>{
         if(error){
             console.log(error);
         }else{

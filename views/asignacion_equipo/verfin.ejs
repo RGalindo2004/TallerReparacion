@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar la asignación de equipo</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Ver la asignación del equipo (<%= asignacion_equipo.codigo %>)</h1>
+    <form action="/endasignacion_equipo" method="post">
+
+        <input type="hidden" name="codigo" value="<%= asignacion_equipo.codigo %>">
+
+        <label for="equipo_codigo">Equipo</label>
+        <input type="text" value="<%= asignacion_equipo.marca + ' - ' + asignacion_equipo.numero_serie %>" readonly>
+        <input type="hidden" name="equipo_codigo" value="<%= asignacion_equipo.equipo_codigo %>">
+
+        <label for="tecnico_codigo">Técnico</label>
+        <input type="text" value="<%= asignacion_equipo.tecnico %>" readonly>
+        <input type="hidden" name="tecnico_codigo" value="<%= asignacion_equipo.tecnico_codigo %>" readonly>
+
+
+        <input type="hidden" name="tecnico_codigo" value="<%= asignacion_equipo.tecnico_codigo %>">
+
+        <label for="fecha_asignacion">Fecha de asignación</label>
+        <input type="datetime-local" name="fecha_asignacion" id="fecha_asignacion"
+            value="<%= asignacion_equipo.fecha_asignacion ? new Date(asignacion_equipo.fecha_asignacion).toLocaleString('sv-SE', { timeZone: 'America/Tegucigalpa' }).replace(' ', 'T').slice(0, 16) : '' %>"
+            readonly>
+
+        <label for="fecha_finalizacion">Fecha de finalización</label>
+        <input type="datetime-local" name="fecha_finalizacion" id="fecha_finalizacion"
+            value="<%= new Date().toLocaleString('sv-SE', { timeZone: 'America/Tegucigalpa' }).replace(' ', 'T').slice(0, 16) %>"
+            readonly>
+
+        <label for="">Estado</label>
+        <input type="text" value="<%= asignacion_equipo.estado %>" readonly>
+
+        <a href="/asignacion_equipofin">Volver</a>
+    </form>
+</body>
+
+</html>

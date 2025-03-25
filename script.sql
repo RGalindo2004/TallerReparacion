@@ -60,6 +60,7 @@ CREATE TABLE asignacion_equipo (
     equipo_codigo INT NOT NULL,
     usuario_codigo INT NOT NULL,
     fecha_asignacion DATETIME NOT NULL DEFAULT NOW(),
+    fecha_finalizacion DATETIME NULL,
     estado ENUM('ACTIVO', 'FINALIZADO') NOT NULL DEFAULT 'ACTIVO',
 
     FOREIGN KEY (equipo_codigo) REFERENCES equipo(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
