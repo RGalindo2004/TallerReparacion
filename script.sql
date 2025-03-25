@@ -36,16 +36,22 @@ CREATE TABLE tipo_equipo (
     nombre VARCHAR(30) NOT NULL UNIQUE
 );
 
+CREATE TABLE marca (
+    codigo INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(30) NOT NULL UNIQUE
+);
+
 CREATE TABLE equipo (
     codigo INT PRIMARY KEY AUTO_INCREMENT,
     numero_serie VARCHAR(50) NOT NULL UNIQUE,
     marca VARCHAR(50) NOT NULL,
     modelo VARCHAR(50) NOT NULL,
     descripcion TEXT,
-    estado ENUM('DISPONIBLE', 'ASIGNADO', 'EN_REPARACION', 'DESCARTADO') NOT NULL DEFAULT 'DISPONIBLE',
+    estado ENUM('INGRESADO', 'DISPONIBLE', 'EN_REPARACION', 'DESCARTADO') NOT NULL DEFAULT 'INGRESADO',
     tipo_equipo VARCHAR(30) NOT NULL,
 
-    FOREIGN KEY (tipo_equipo) REFERENCES tipo_equipo(nombre) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (tipo_equipo) REFERENCES tipo_equipo(nombre) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (marca) REFERENCES marca(nombre) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO tipo_equipo (codigo, nombre) VALUES 
@@ -54,6 +60,18 @@ INSERT INTO tipo_equipo (codigo, nombre) VALUES
 (3, 'Impresora'),
 (4, 'Celular'),
 (5, 'Tablet');
+
+INSERT INTO marca (nombre) VALUES
+('Sony'),
+('Samsung'),
+('LG'),
+('Panasonic'),
+('Sharp'),
+('Philips'),
+('Toshiba'),
+('Apple'),
+('Dell'),
+('HP');
 
 CREATE TABLE asignacion_equipo (
     codigo INT PRIMARY KEY AUTO_INCREMENT,

@@ -21,20 +21,20 @@
 
         <label for="equipo_codigo">Equipo</label>
         <select name="equipo_codigo" id="equipo_codigo">
-            <% equipos.forEach(equipo=> { %>
-                <option value="<%= equipo.codigo %>">
+            <% equipos.forEach(equipo => { %>
+                <option value="<%= equipo.codigo %>" <%= equipo.codigo === asignacion_equipo.equipo_codigo ? 'selected' : '' %>>
                     <%= equipo.equipo %>
                 </option>
-                <% }); %>
+            <% }); %>
         </select>
 
         <label for="tecnico_codigo">Técnico</label>
         <select name="tecnico_codigo" id="tecnico_codigo">
-            <% tecnicos.forEach(tecnico=> { %>
-                <option value="<%= tecnico.codigo %>">
+            <% tecnicos.forEach(tecnico => { %>
+                <option value="<%= tecnico.codigo %>" <%= tecnico.codigo === asignacion_equipo.tecnico_codigo ? 'selected' : '' %>>
                     <%= tecnico.tecnico %>
                 </option>
-                <% }); %>
+            <% }); %>
         </select>
 
         <label for="fecha_asignacion">Fecha de asignación</label>

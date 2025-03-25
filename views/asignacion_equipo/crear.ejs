@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,28 +16,43 @@
 <body>
     <h1>Asignar equipo</h1>
     <form action="/saveasignacion_equipo" method="post">
-        
+
         <label for="equipo_codigo">Equipo</label>
         <select name="equipo_codigo" id="equipo_codigo" required>
-            <% equipos.forEach(equipo => { %>
-                <option value="<%= equipo.codigo %>"><%= equipo.equipo %></option>
-            <% }); %>
+            <% if (equipos.length> 0) { %>
+                <% equipos.forEach(equipo=> { %>
+                    <option value="<%= equipo.codigo %>">
+                        <%= equipo.equipo %>
+                    </option>
+                    <% }); %>
+                        <% } else { %>
+                            <option value="" disabled selected>No hay equipos disponibles</option>
+                            <% } %>
         </select>
-    
+
         <label for="tecnico_codigo">Técnico</label>
         <select name="tecnico_codigo" id="tecnico_codigo" required>
-            <% tecnicos.forEach(tecnico => { %>
-                <option value="<%= tecnico.codigo %>"><%= tecnico.tecnico %></option>
-            <% }); %>
+            <% if (tecnicos.length> 0) { %>
+                <% tecnicos.forEach(tecnico=> { %>
+                    <option value="<%= tecnico.codigo %>">
+                        <%= tecnico.tecnico %>
+                    </option>
+                    <% }); %>
+                        <% } else { %>
+                            <option value="" disabled selected>No hay técnicos disponibles</option>
+                            <% } %>
         </select>
-    
-        <input type="hidden" name="fecha_asignacion" value="<%= new Date().toLocaleString('sv-SE', { timeZone: 'America/Tegucigalpa' }).replace(' ', 'T') %>" required>
-    
+
+
+        <input type="hidden" name="fecha_asignacion"
+            value="<%= new Date().toLocaleString('sv-SE', { timeZone: 'America/Tegucigalpa' }).replace(' ', 'T') %>"
+            required>
+
         <input type="hidden" name="estado" id="estado" value="ACTIVO">
 
         <button type="submit">Asignar equipo</button>
-        <a href="/asignacion_equipo">Cancelar</a>
     </form>
-    
+
 </body>
+
 </html>

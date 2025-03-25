@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elimininar la marca de equipo</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Elimininar el equipo (<%= marca.codigo %>)</h1>
+    <form action="/deletemarca" method="post">
+
+        <input type="hidden" name="codigo" value="<%= marca.codigo %>">
+
+        <label for="">Nombre de la marca del equipo</label>
+        <input type="text" name="nombre" id="nombre" value="<%= marca.nombre %>" readonly>
+
+        <button type="submit">Eliminar la marca del equipo</button>
+    </form>
+</body>
+</html>

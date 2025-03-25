@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de tipos de equipos</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Lista de tipos equipos</h1>
+    <a href="/crearmarca">Crear tipo de equipo</a>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre de la marca</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% marca.forEach((dato)=>{ %>
+                <tr>
+                    <td><%= dato.codigo %></td>
+                    <td><%= dato.nombre %></td>
+                    <td><a href="/editarmarca/<%= dato.codigo %>">Editar</a></td>
+                    <td><a href="/eliminarmarca/<%= dato.codigo %>">Eliminar</a></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <div><a href="/equipos">Volver</a></div>
+</body>
+
+</html>

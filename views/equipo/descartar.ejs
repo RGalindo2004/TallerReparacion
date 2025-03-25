@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descartar equipo</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Crear equipo</h1>
+    <form action="/deleteequipo" method="post">
+
+        <input type="hidden" name="codigo" id="codigo" value="<%= equipo.codigo %>">
+
+        <label for="">Número de serie</label>
+        <input type="text" name="numero_serie" id="numero_serie" value="<%= equipo.numero_serie %>" readonly>
+
+        <label for="marca">Marca</label>
+        <input type="text" name="marca" id="marca" value="<%= equipo.marca %>" readonly>
+
+        <label for="">Modelo</label>
+        <input type="text" name="modelo" id="modelo" value="<%= equipo.modelo %>" readonly>
+
+        <label for="">Descripción</label>
+        <input type="text" name="descripcion" id="descripcion" value="<%= equipo.descripcion %>" readonly>
+        
+        <label for="">Estado</label>
+        <input type="text" name="estado" id="estado" value="<%= equipo.estado %>" readonly>
+
+        <label for="tipo_equipo">Tipo de equipo</label>
+        <input type="text" name="tipo_equipo" id="tipo_equipo" value="<%= equipo.tipo_equipo %>" readonly>
+
+        <button type="submit">Descartar equipo</button>
+    </form>
+</body>
+</html>

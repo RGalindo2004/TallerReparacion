@@ -83,6 +83,19 @@ exports.saveequipo=(req,res) => {
     });
 }
 
+exports.deleteequipo = (req, res) => {
+    const codigo = req.body.codigo;
+
+    conexion.query('UPDATE equipo SET estado = "DESCARTADO" WHERE codigo = ?', [codigo], (error) => {
+        if (error) {
+            console.log(error);
+        }
+
+        res.redirect('/equipos');
+    }
+    );
+}
+
 //TIPO DE EQUIPOS
 exports.savetipoequipo=(req,res) => {
     const nombre = req.body.nombre;
@@ -120,33 +133,117 @@ exports.edittipoequipo=(req,res) => {
     });
 }
 
+//MARCA DE EQUIPOS
+exports.savemarca=(req,res) => {
+    const nombre = req.body.nombre;
+
+    conexion.query('INSERT INTO marca SET ?',{nombre:nombre},(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/marca');
+        }
+    });
+}
+
+exports.deletemarca=(req,res) => {
+    const codigo = req.body.codigo;
+    conexion.query('DELETE FROM marca WHERE codigo = ?',[codigo],(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/marca');
+        }
+    });
+}
+
+exports.editmarca=(req,res) => {
+    const codigo = req.body.codigo;
+    const nombre = req.body.nombre;
+
+    conexion.query('UPDATE marca SET nombre = ? WHERE codigo = ?',[nombre,codigo],(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/marca');
+        }
+    });
+}
+
 //ASIGNACIÓN DE EQUIPOS
-exports.saveasignacion_equipo=(req,res) => {
+exports.saveasignacion_equipo = (req, res) => {
     const equipo_codigo = req.body.equipo_codigo;
     const tecnico_codigo = req.body.tecnico_codigo;
     const fecha_asignacion = req.body.fecha_asignacion;
     const estado = req.body.estado;
 
-    conexion.query('INSERT INTO asignacion_equipo SET ?',{equipo_codigo:equipo_codigo,usuario_codigo:tecnico_codigo,fecha_asignacion:fecha_asignacion,estado:estado},(error,results)=>{
-        if(error){
-            console.log(error);
-        }else{
-            res.redirect('/asignacion_equipo');
-        }
-    });
-}
+    conexion.query(
+        'INSERT INTO asignacion_equipo SET ?',
+        { equipo_codigo: equipo_codigo, usuario_codigo: tecnico_codigo, fecha_asignacion: fecha_asignacion, estado: estado },
+        (error) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).send("Error al insertar asignación");
+            }
 
-exports.endasignacion_equipo=(req,res) => {
+            conexion.query(
+                'UPDATE equipo SET estado = "EN_REPARACION" WHERE codigo = ?',
+                [equipo_codigo],
+                (error) => {
+                    if (error) {
+                        console.log(error);
+                        return res.status(500).send("Error al actualizar estado del equipo");
+                    }
+
+                    res.redirect('/asignacion_equipo');
+                }
+            );
+        }
+    );
+};
+
+
+exports.endasignacion_equipo = (req, res) => {
     const codigo = req.body.codigo;
     const fecha_finalizacion = req.body.fecha_finalizacion;
-    conexion.query('UPDATE asignacion_equipo SET estado = "FINALIZADO", fecha_finalizacion = ? WHERE codigo = ?',[fecha_finalizacion, codigo],(error)=>{
-        if(error){
-            console.log(error);
-        }else{
-            res.redirect('/asignacion_equipo');
+
+    conexion.query(
+        'UPDATE asignacion_equipo SET estado = "FINALIZADO", fecha_finalizacion = ? WHERE codigo = ?',
+        [fecha_finalizacion, codigo],
+        (error) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).send("Error al actualizar la asignación");
+            }
+
+            conexion.query(
+                'SELECT equipo_codigo FROM asignacion_equipo WHERE codigo = ?',
+                [codigo],
+                (error, result) => {
+                    if (error) {
+                        console.log(error);
+                        return res.status(500).send("Error al obtener equipo");
+                    }
+                    const equipo_codigo = result[0].equipo_codigo;
+
+                    conexion.query(
+                        'UPDATE equipo SET estado = "DISPONIBLE" WHERE codigo = ?',
+                        [equipo_codigo],
+                        (error) => {
+                            if (error) {
+                                console.log(error);
+                                return res.status(500).send("Error al actualizar estado del equipo");
+                            }
+
+                            res.redirect('/asignacion_equipo');
+                        }
+                    );
+                }
+            );
         }
-    });
-}
+    );
+};
+
 
 exports.undoendasignacion_equipo=(req,res) => {
     const codigo = req.body.codigo;

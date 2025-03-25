@@ -17,6 +17,7 @@
     <h1>Lista de equipos</h1>
     <a href="/crearequipo">Crear equipo</a>
     <a href="/tipo_equipo">Ver los tipos de equipos</a>
+    <a href="/marca">Ver la marca de los equipos</a>
     <table>
         <thead>
             <tr>
@@ -44,7 +45,7 @@
                     <td><%= dato.tipo_equipo %></td>
                     <td><a href="/verequipo/<%= dato.codigo %>">Ver</a></td>
                     <td><a href="/editarequipo/<%= dato.codigo %>">Editar</a></td>
-                    <td><a href="/desactivarequipo/<%= dato.codigo %>">Desactivar</a></td>
+                    <td><a href="/descartarequipo/<%= dato.codigo %>">Descartar</a></td>
                 </tr>
             <% }) %>
         </tbody>
