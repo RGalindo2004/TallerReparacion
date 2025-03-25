@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elimininar el tipo de equipo</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Editar el equipo (<%= tipo_equipo.codigo %>)</h1>
+    <form action="/deleteasignacion_equipo" method="post">
+
+        <input type="hidden" name="codigo" value="<%= asignacion_equipo.codigo %>">
+
+        <label for="equipo_codigo">Equipo</label>
+        <select name="equipo_codigo" id="equipo_codigo">
+            <% equipos.forEach(equipo => { %>
+                <option value="<%= equipo.codigo %>"><%= equipo.equipo %></option>
+            <% }); %>
+        </select>
+
+        <label for="tecnico_codigo">Técnico</label>
+        <select name="tecnico_codigo" id="tecnico_codigo">
+            <% tecnicos.forEach(tecnico => { %>
+                <option value="<%= tecnico.codigo %>"><%= tecnico.tecnico %></option>
+            <% }); %>
+        </select>
+
+        <input type="date" name="fecha_asignacion" id="fecha_asignacion" 
+        value="<%= new Date().toLocaleString('sv-SE', { timeZone: 'America/Tegucigalpa' }).replace(' ', 'T') %>" required>
+
+        <label for="">Estado</label>
+        <select name="estado" id="estado">
+            <option value="ACTIVO">Activo</option>
+            <option value="FINALIZADO">Finalizado</option>
+        </select>
+
+        <button type="submit">Editar asignacion de equipo</button>
+    </form>
+</body>
+</html>

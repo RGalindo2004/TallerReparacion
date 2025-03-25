@@ -261,4 +261,6 @@ router.get('/crearasignacion', (req, res) => {
 });
 router.post('/saveasignacion_equipo', metodos.saveasignacion_equipo);
 
+
+
 module.exports = router;

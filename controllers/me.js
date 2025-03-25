@@ -135,3 +135,30 @@ exports.saveasignacion_equipo=(req,res) => {
         }
     });
 }
+
+exports.deleteasignacion_equipo=(req,res) => {
+    const codigo = req.body.codigo;
+    conexion.query('DELETE FROM asignacion_equipo WHERE codigo = ?',[codigo],(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/asignacion_equipo');
+        }
+    });
+}
+
+exports.editasignacion_equipo=(req,res) => {
+    const codigo = req.body.codigo;
+    const equipo_codigo = req.body.equipo_codigo;
+    const tecnico_codigo = req.body.tecnico_codigo;
+    const fecha_asignacion = req.body.fecha_asignacion;
+    const estado = req.body.estado;
+
+    conexion.query('INSERT INTO asignacion_equipo SET ?',{equipo_codigo:equipo_codigo,usuario_codigo:tecnico_codigo,fecha_asignacion:fecha_asignacion,estado:estado},(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/asignacion_equipo');
+        }
+    });
+}
