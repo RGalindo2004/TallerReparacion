@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar asignación de equipo</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Editar el equipo (<%= asignacion_equipo.codigo %>)</h1>
+    <form action="/editasignacion_equipo" method="post">
+
+        <input type="hidden" name="codigo" value="<%= asignacion_equipo.codigo %>">
+
+        <label for="equipo_codigo">Equipo</label>
+        <select name="equipo_codigo" id="equipo_codigo">
+            <% equipos.forEach(equipo => { %>
+                <option value="<%= equipo.codigo %>" <%= equipo.codigo === asignacion_equipo.equipo_codigo ? 'selected' : '' %>>
+                    <%= equipo.equipo %>
+                </option>
+            <% }); %>
+        </select>
+
+        <label for="tecnico_codigo">Técnico</label>
+        <select name="tecnico_codigo" id="tecnico_codigo">
+            <% tecnicos.forEach(tecnico => { %>
+                <option value="<%= tecnico.codigo %>" <%= tecnico.codigo === asignacion_equipo.tecnico_codigo ? 'selected' : '' %>>
+                    <%= tecnico.tecnico %>
+                </option>
+            <% }); %>
+        </select>
+
+        <label for="fecha_asignacion">Fecha de asignación</label>
+        <input type="datetime-local" name="fecha_asignacion" id="fecha_asignacion"
+            value="<%= asignacion_equipo.fecha_asignacion ? new Date(asignacion_equipo.fecha_asignacion).toLocaleString('sv-SE', { timeZone: 'America/Tegucigalpa' }).replace(' ', 'T').slice(0, 16) : '' %>"
+            required>
+
+        <input type="hidden" value="<%= asignacion_equipo.estado %>" readonly>
+
+        <button type="submit">Editar asignacion de equipo</button>
+        <a href="/asignacion_equipo">Cancelar</a>
+    </form>
+</body>
+
+</html>

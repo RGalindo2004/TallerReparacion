@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear tipo de equipo</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Crear tipo de equipo</h1>
+    <form action="/savetipoequipo" method="post">
+
+        <label for="">Nombre del tipo del equipo</label>
+        <input type="text" name="nombre" id="nombre" required>
+
+        <button type="submit">Crear tipo de equipo</button>
+    </form>
+</body>
+</html>

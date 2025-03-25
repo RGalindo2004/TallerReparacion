@@ -15,24 +15,24 @@
 
 <body>
     <h1>Lista de tipos equipos</h1>
-    <a href="/crearmarca">Crear tipo de equipo</a>
+    <a href="/creartipoequipo">Crear tipo de equipo</a>
     
     <table>
         <thead>
             <tr>
                 <th>Código</th>
-                <th>Nombre de la marca</th>
+                <th>Nombre del tipo</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <% marca.forEach((dato)=>{ %>
+            <% tipo_equipo.forEach((dato)=>{ %>
                 <tr>
                     <td><%= dato.codigo %></td>
                     <td><%= dato.nombre %></td>
-                    <td><a href="/editarmarca/<%= dato.codigo %>">Editar</a></td>
-                    <td><a href="/eliminarmarca/<%= dato.codigo %>">Eliminar</a></td>
+                    <td><a href="/editartipoequipo/<%= dato.codigo %>">Editar</a></td>
+                    <td><a href="/eliminartipoequipo/<%= dato.codigo %>">Eliminar</a></td>
                 </tr>
             <% }) %>
         </tbody>

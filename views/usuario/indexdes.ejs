@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios desactivos</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Usuarios desactivos</h1>
+    <a href="/crearusuario">Crear empleado</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo Electrónico</th>
+        
+                <th>Telefono</th>
+                <th>Fecha de nacimiento</th>
+                <th>Género</th>
+                <th>Estado</th>
+                <th>Tipo</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% usuario.forEach((dato)=>{ %>
+                <tr>
+                    <td>
+                        <%= dato.codigo %>
+                    </td>
+                    <td>
+                        <%= dato.nombre %>
+                    </td>
+                    <td>
+                        <%= dato.apellido %>
+                    </td>
+                    <td>
+                        <%= dato.correoelectronico %>
+                    </td>
+                    <td>
+                        <%= dato.telefono %>
+                    </td>
+                    <td>
+                        <%= dato.fecha_nacimiento %>
+                    </td>
+                    <td>
+                        <%= dato.genero %>
+                    </td>
+                    <td>
+                        <%= dato.estado %>
+                    </td>
+                    <td>
+                        <%= dato.tipo %>
+                    </td>
+                    <td><a href="/activarusuario/<%= dato.codigo %>">Activar</a></td>
+                </tr>
+                <% }) %>
+        </tbody>
+        <a href="/usuarios">Ver lista de usuarios</a>
+    </table>
+</body>

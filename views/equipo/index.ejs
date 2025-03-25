@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de equipos</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<header>
+    <div><a href="/menu">Volver al menú</a></div>
+    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+</header>
+
+<body>
+    <h1>Lista de equipos</h1>
+    <a href="/crearequipo">Crear equipo</a>
+    <a href="/tipo_equipo">Ver los tipos de equipos</a>
+    <a href="/marca">Ver la marca de los equipos</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Número de serie</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Tipo de equipo</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% equipo.forEach((dato)=>{ %>
+                <tr>
+                    <td><%= dato.codigo %></td>
+                    <td><%= dato.numero_serie %></td>
+                    <td><%= dato.marca %></td>
+                    <td><%= dato.modelo %></td>
+                    <td><%= dato.descripcion %></td>
+                    <td><%= dato.estado %></td>
+                    <td><%= dato.tipo_equipo %></td>
+                    <td><a href="/verequipo/<%= dato.codigo %>">Ver</a></td>
+                    <td><a href="/editarequipo/<%= dato.codigo %>">Editar</a></td>
+                    <td><a href="/descartarequipo/<%= dato.codigo %>">Descartar</a></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+
+</html>

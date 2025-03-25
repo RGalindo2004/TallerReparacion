@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+    <h1>Iniciar sesión</h1>
+    <form action="/login" method="POST">
+        <label for="correo">Correo Electrónico:</label>
+        <input type="correo" name="correo" id="correo" required>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" name="contrasena" id="contrasena" required>
+
+        <button type="submit">Iniciar sesión</button>
+
+        <% if (typeof error !== 'undefined') { %>
+            <div style="color: red; margin-top: 10px;">
+                <p><%= error %></p>
+            </div>
+        <% } %>
+    </form>
+
+    
+</body>
+</html>
