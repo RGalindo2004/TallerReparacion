@@ -6,18 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
-    <h1>Menú</h1>
-    <a href="/usuarios">Ver Usuarios</a>
-    <a href="/equipos">Ver Equipos</a>
-    <a href="/asignacion_equipo">Asignaciones de los equipos</a>
+    <header>
+        <div></div>
+        <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+    </header>
+
+    <h1>Menú Principal</h1>
+    <div class="menu-container">
+        <a href="/usuarios"><i class="fas fa-users"></i> Ver Usuarios</a>
+        <a href="/equipos"><i class="fas fa-laptop"></i> Ver Equipos</a>
+        <a href="/asignacion_equipo"><i class="fas fa-tasks"></i> Asignaciones de equipos</a>
+    </div>
 </body>
 
 </html>
