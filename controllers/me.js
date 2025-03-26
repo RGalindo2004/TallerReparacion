@@ -82,6 +82,25 @@ exports.saveequipo=(req,res) => {
         }
     });
 }
+// Actualizar tiene errores
+exports.actualizarequipo=(req,res) => {
+    const codigo = req.body.codigo;
+    const numero_serie = req.body.numero_serie;
+    const marca = req.body.marca;
+    const modelo = req.body.modelo;
+    const descripcion = req.body.descripcion;
+    const estado = req.body.estado;
+    const tipo_equipo = req.body.tipo_equipo;
+
+    conexion.query('UPDATE equipo SET codigo = ?',{codigo,numero_serie:numero_serie,marca:marca,modelo:modelo,descripcion:descripcion,estado:estado, tipo_equipo:tipo_equipo},(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/equipos');
+        }
+    });
+}
+
 
 exports.deleteequipo = (req, res) => {
     const codigo = req.body.codigo;

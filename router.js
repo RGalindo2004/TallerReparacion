@@ -175,6 +175,35 @@ router.get('/crearequipo', (req, res) => {
 });
 router.post('/saveequipo', metodos.saveequipo);
 
+//EDITAR EQUIPO (temp)
+router.get('/actualizarequipo/:id', (req, res) => {
+    const codigo = req.params.id;
+    conexion.query('SELECT * FROM equipo WHERE codigo = ?', [codigo], (error, resultadoEquipo) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+
+        conexion.query('SELECT * FROM tipo_equipo', (error, resultadoTipos) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).send("Error en la base de datos");
+            }
+
+            conexion.query('SELECT * FROM marca', (error, resultadoMarcas) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(500).send("Error en la base de datos");
+                }
+
+                res.render('equipo/actualizar', { equipo: resultadoEquipo[0], tipos: resultadoTipos, marcas: resultadoMarcas });
+            });
+        });
+    });
+});
+
+router.post('/actualizarequipo', metodos.actualizarequipo);
+
 router.get('/descartarequipo/:id', (req, res) => {
     const codigo = req.params.id;
 

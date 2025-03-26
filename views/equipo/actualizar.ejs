@@ -15,28 +15,36 @@
 <body>
     <h1>Actualizar Equipo</h1>
     <form action="/actualizarequipo" method="post">
+        <label for =""> Id</label>
+        <input type="text" name="codigo" id="codigo" value="<%= equipo.codigo %>">
 
         <label for="">Número de serie</label>
-        <input type="text" name="numero_serie" id="numero_serie" required>
+        <input type="text" name="numero_serie" id="numero_serie" value="<%= equipo.numero_serie %>" required>
 
-        <label for="">Marca</label>
-        <input type="text" name="marca" id="marca" required>
+        <label for="marca">Marca</label>
+        <select name="marca" id="marca" value="<%= equipo.marca %>" required>
+            <% marcas.forEach((marca) => { %>
+                <option value="<%= marca.nombre %>">
+                    <%= marca.nombre %>
+                </option>
+            <% }); %>
+        </select>
 
         <label for="">Modelo</label>
-        <input type="text" name="modelo" id="modelo" required>
+        <input type="text" name="modelo" id="modelo" value="<%= equipo.modelo %>" required>
 
         <label for="">Descripción</label>
-        <input type="text" name="descripcion" id="descripcion" required>
+        <input type="text" name="descripcion" id="descripcion" value="<%= equipo.descripcion %>" required>
         
         <label for="">Estado</label>
-        <select name="estado" id="estado" required>
+        <select name="estado" id="estado" value="<%= equipo.estado %>" required>
             <option value="DISPONIBLE">DISPONIBLE</option>
             <option value="ASIGNADO">ASIGNADO</option>
             <option value="EN_REPARACION">EN REPARACION</option>
             <option value="DESCARTADO">DESCARTADO</option>
         </select>
 
-        <label for="tipo_equipo">Tipo de equipo</label>
+        <label for="tipo_equipo" value="<%= equipo.tipo_equipo %>">Tipo de equipo</label>
         <select name="tipo_equipo" id="tipo_equipo">
             <% tipos.forEach((dato) => { %>
                 <option value="<%= dato.nombre %>">
@@ -46,7 +54,7 @@
         </select>
     
 
-        <label for=""></label>
+       
 
         <button type="submit">Actualizar Equipo</button>
     </form>
