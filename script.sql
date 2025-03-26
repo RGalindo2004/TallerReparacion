@@ -43,7 +43,7 @@ CREATE TABLE marca (
 
 CREATE TABLE equipo (
     codigo INT PRIMARY KEY AUTO_INCREMENT,
-    numero_serie VARCHAR(50) NOT NULL UNIQUE,
+    numero_serie VARCHAR(50) NOT NULL,
     marca VARCHAR(50) NOT NULL,
     modelo VARCHAR(50) NOT NULL,
     descripcion TEXT,

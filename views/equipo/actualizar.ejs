@@ -16,7 +16,7 @@
     <h1>Actualizar Equipo</h1>
     <form action="/actualizarequipo" method="post">
         <label for =""> Id</label>
-        <input type="text" name="codigo" id="codigo" value="<%= equipo.codigo %>">
+        <input type="text" name="codigo" id="codigo" value="<%= equipo.codigo %>" readonly>
 
         <label for="">Número de serie</label>
         <input type="text" name="numero_serie" id="numero_serie" value="<%= equipo.numero_serie %>" required>
