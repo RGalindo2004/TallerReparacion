@@ -149,6 +149,7 @@ router.get('/equipos', (req, res) => {
     });
 });
 
+
 router.get('/crearequipo', (req, res) => {
     conexion.query('SELECT * FROM equipo', (error, resultadoEquipo) => {
         if (error) {
@@ -168,11 +169,28 @@ router.get('/crearequipo', (req, res) => {
                     return res.status(500).send("Error en la base de datos");
                 }
 
-                res.render('equipo/crear', { equipo: resultadoEquipo[0], tipos: resultadoTipos, marcas: resultadoMarcas });
+                // Modificar la consulta para solo seleccionar usuarios de tipo 'cliente'
+                conexion.query('SELECT * FROM usuario WHERE tipo = "cliente"', (error, resultadoUsuario) => {
+                    if (error) {
+                        console.log(error);
+                        return res.status(500).send("Error en la base de datos");
+                    }
+
+                    // Renderizar la vista con los datos filtrados
+                    res.render('equipo/crear', { 
+                        equipo: resultadoEquipo[0], 
+                        tipos: resultadoTipos, 
+                        marcas: resultadoMarcas, 
+                        usuario: resultadoUsuario
+                    });
+                });
+
             });
+
         });
     });
 });
+
 router.post('/saveequipo', metodos.saveequipo);
 
 //EDITAR EQUIPO (temp)

@@ -45,6 +45,15 @@
             <% }); %>
         </select>
 
+        <label for="usuario">cliente</label>
+        <select name="usuario" id="usuario">
+            <% usuario.forEach((dato) => { %>
+                <option value="<%= dato.nombre %>">
+                    <%= dato.nombre %>
+                </option>
+            <% }); %>
+        </select>
+
         <button type="submit">Crear equipo</button>
     </form>
 </body>
