@@ -9,7 +9,7 @@ CREATE TABLE tipo_usuario (
 
 CREATE TABLE usuario (
     codigo INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(30) NOT NULL,
+    nombre VARCHAR(30) NOT NULL UNIQUE,
     apellido VARCHAR(30) NOT NULL,
     correoelectronico VARCHAR(30) NOT NULL,
     contrasena VARCHAR(30) NOT NULL,
@@ -43,16 +43,20 @@ CREATE TABLE marca (
 
 CREATE TABLE equipo (
     codigo INT PRIMARY KEY AUTO_INCREMENT,
-    numero_serie VARCHAR(50) NOT NULL,
+    numero_serie VARCHAR(50) NOT NULL UNIQUE,
     marca VARCHAR(50) NOT NULL,
     modelo VARCHAR(50) NOT NULL,
     descripcion TEXT,
     estado ENUM('INGRESADO', 'DISPONIBLE', 'EN_REPARACION', 'DESCARTADO') NOT NULL DEFAULT 'INGRESADO',
     tipo_equipo VARCHAR(30) NOT NULL,
-
-    FOREIGN KEY (tipo_equipo) REFERENCES tipo_equipo(nombre) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (marca) REFERENCES marca(nombre) ON DELETE CASCADE ON UPDATE CASCADE
+    usuario VARCHAR(15) NOT NULL,
+    
+    
+    CONSTRAINT fk_tipo_equipo FOREIGN KEY (tipo_equipo) REFERENCES tipo_equipo(nombre) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_marca FOREIGN KEY (marca) REFERENCES marca(nombre) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_usuario FOREIGN KEY (usuario) REFERENCES usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 INSERT INTO tipo_equipo (codigo, nombre) VALUES 
 (1, 'Laptop'),
