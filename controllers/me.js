@@ -73,8 +73,9 @@ exports.saveequipo=(req,res) => {
     const descripcion = req.body.descripcion;
     const estado = req.body.estado;
     const tipo_equipo = req.body.tipo_equipo;
+    const usuario = req.body.usuario;
 
-    conexion.query('INSERT INTO equipo SET ?',{numero_serie:numero_serie,marca:marca,modelo:modelo,descripcion:descripcion,estado:estado, tipo_equipo:tipo_equipo},(error,results)=>{
+    conexion.query('INSERT INTO equipo SET ?',{numero_serie:numero_serie,marca:marca,modelo:modelo,descripcion:descripcion,estado:estado, tipo_equipo:tipo_equipo, usuario:usuario},(error,results)=>{
         if(error){
             console.log(error);
         }else{
