@@ -6,18 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de usuarios</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
     <h1>Lista de usuarios</h1>
-    <a href="/crearusuario">Crear usuario</a>
-    
-    <table>
+
+    <div class="action-buttons">
+        <a href="/crearusuario" class="btn btn-success">Crear usuario <i class="fas fa-plus"></i></a>
+        <a href="/usuariosdes" class="btn btn-info">Ver usuarios desactivados <i class="fas fa-eye-slash"></i></a>
+    </div>
+
+    <table class="enhanced-table">
         <thead>
             <tr>
                 <th>Código</th>
@@ -37,22 +42,45 @@
         <tbody>
             <% usuario.forEach((dato)=>{ %>
                 <tr>
-                    <td><%= dato.codigo %></td>
-                    <td><%= dato.nombre %></td>
-                    <td><%= dato.apellido %></td>
-                    <td><%= dato.correoelectronico %></td>
-                    <td><%= dato.telefono %></td>
-                    <td><%= dato.fecha_nacimiento %></td>
-                    <td><%= dato.genero %></td>
-                    <td><%= dato.estado %></td>
-                    <td><%= dato.tipo %></td>
-                    <td><a href="/verusuario/<%= dato.codigo %>">Ver</a></td>
-                    <td><a href="/editarusuario/<%= dato.codigo %>">Editar</a></td>
-                    <td><a href="/desactivarusuario/<%= dato.codigo %>">Desactivar</a></td>
+                    <td>
+                        <%= dato.codigo %>
+                    </td>
+                    <td>
+                        <%= dato.nombre %>
+                    </td>
+                    <td>
+                        <%= dato.apellido %>
+                    </td>
+                    <td>
+                        <%= dato.correoelectronico %>
+                    </td>
+                    <td>
+                        <%= dato.telefono %>
+                    </td>
+                    <td>
+                        <%= dato.fecha_nacimiento %>
+                    </td>
+                    <td>
+                        <%= dato.genero %>
+                    </td>
+                    <td>
+                        <%= dato.estado %>
+                    </td>
+                    <td>
+                        <%= dato.tipo %>
+                    </td>
+                    <td>
+                        <div class="actions-container">
+                            <a href="/verusuario/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a>
+                            <a href="/editarusuario/<%= dato.codigo %>" class="btn-action btn-edit" title="Editar"><i class="fas fa-edit"></i></a>
+                            <a href="/desactivarusuario/<%= dato.codigo %>" class="btn-action btn-deactivate"
+                                title="Desactivar">
+                                <i class="fas fa-user-slash"></i></a>
+                        </div>
+                    </td>
                 </tr>
-            <% }) %>
+                <% }) %>
         </tbody>
-        <a href="/usuariosdes">Ver usuarios desactivados</a>
     </table>
 </body>
 
