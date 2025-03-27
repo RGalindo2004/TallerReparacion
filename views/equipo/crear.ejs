@@ -33,14 +33,8 @@
 
         <label for="">Descripción</label>
         <input type="text" name="descripcion" id="descripcion" required>
-        
-        <label for="">Estado</label>
-        <select name="estado" id="estado" required>
-            <option value="INGRESADO">Ingresado</option>
-            <option value="DISPONIBLE">Disponible</option>
-            <option value="EN_REPARACION">En reparación</option>
-            <option value="DESCARTADO">Descartado</option>
-        </select>
+
+        <input type="hidden" name="estado" id="estado" value="INGRESADO">
 
         <label for="tipo_equipo">Tipo de equipo</label>
         <select name="tipo_equipo" id="tipo_equipo">

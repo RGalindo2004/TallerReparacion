@@ -37,11 +37,11 @@
         <input type="text" name="descripcion" id="descripcion" value="<%= equipo.descripcion %>" required>
         
         <label for="">Estado</label>
-        <select name="estado" id="estado" value="<%= equipo.estado %>" required>
-            <option value="DISPONIBLE">DISPONIBLE</option>
-            <option value="ASIGNADO">ASIGNADO</option>
-            <option value="EN_REPARACION">EN REPARACION</option>
-            <option value="DESCARTADO">DESCARTADO</option>
+        <select name="estado" id="estado" required>
+            <option value="INGRESADO">Ingresado</option>
+            <option value="DISPONIBLE">Disponible</option>
+            <option value="EN_REPARACION">En reparación</option>
+            <option value="DESCARTADO">Descartado</option>
         </select>
 
         <label for="tipo_equipo" value="<%= equipo.tipo_equipo %>">Tipo de equipo</label>
@@ -52,9 +52,6 @@
                 </option>
                 <% }); %>
         </select>
-    
-
-       
 
         <button type="submit">Actualizar Equipo</button>
     </form>
