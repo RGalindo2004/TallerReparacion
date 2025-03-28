@@ -17,22 +17,14 @@
 
     <h1>Asignaciones de los equipos</h1>
 
-<<<<<<< HEAD
-    <% if (tipoUsuario !== 'Tecnico') { %>
-        <a href="/crearasignacion">Asignar equipo a técnico</a>
-    <% } %>
-
-    <a href="/asignacion_equipofin">Ver asignaciones finalizadas</a>
-
-    <table>
-=======
     <div class="action-buttons">
-        <a href="/crearasignacion" class="btn btn-success">Asignar equipo a tecnico <i class="fas fa-plus"></i></a>
+        <% if (tipoUsuario !== 'Tecnico') { %>
+            <a href="/crearasignacion" class="btn btn-success">Asignar equipo a técnico <i class="fas fa-plus"></i></a>
+        <% } %>
         <a href="/asignacion_equipofin" class="btn btn-info">Ver asignaciones finalizadas <i class="fas fa-clipboard-check"></i></a>
     </div>
 
     <table class="enhanced-table">
->>>>>>> bb9556bc0096896b4629e56eeb1a2eb2938661ab
         <thead>
             <tr>
                 <th>Código</th>
@@ -42,51 +34,26 @@
                 <th>Fecha de finalización</th>
                 <th>Estado</th>
                 <th></th>
-                <th></th>
-                <th></th>
+                <% if (tipoUsuario !== 'Tecnico') { %>
+                    <th></th>
+                    <th></th>
+                <% } %>
             </tr>
         </thead>
         <tbody>
             <% asignacion_equipo.forEach((dato) => { %>
                 <tr>
-<<<<<<< HEAD
                     <td><%= dato.codigo %></td>
                     <td><%= dato.equipo %></td>
                     <td><%= dato.tecnico %></td>
                     <td><%= dato.fecha_asignacion %></td>
                     <td>En progreso...</td>
                     <td><%= dato.estado %></td>
-                    <td><a href="/verasignacion/<%= dato.codigo %>">Ver</a></td>
+                    <td><a href="/verasignacion/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a></td>
                     <% if (tipoUsuario !== 'Tecnico') { %>
-                        <td><a href="/editarasignacion/<%= dato.codigo %>">Editar</a></td>
-                        <td><a href="/finalizarasignacion/<%= dato.codigo %>">Finalizar</a></td>
-                    <% } %>
-=======
-                    <td>
-                        <%= dato.codigo %>
-                    </td>
-                    <td>
-                        <%= dato.equipo %>
-                    </td>
-                    <td>
-                        <%= dato.tecnico %>
-                    </td>
-
-                    <td>
-                        <%= dato.fecha_asignacion %>
-                    </td>
-                    <td>
-                        En progreso...
-                    </td>
-                    <td>
-                        <%= dato.estado %>
-                    </td>
-                    <div class="actions-container">
-                        <td><a href="/verasignacion/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a></td>
                         <td><a href="/editarasignacion/<%= dato.codigo %>" class="btn-action btn-edit" title="Editar"><i class="fas fa-edit"></i></a></td>
-                        <td><a href="/finalizarasignacion/<%= dato.codigo %>" class="btn-action btn-deactivate" title="Desactivar"><i class="fas fa-user-slash"></i></a></td>
-                    </div>
->>>>>>> bb9556bc0096896b4629e56eeb1a2eb2938661ab
+                        <td><a href="/finalizarasignacion/<%= dato.codigo %>" class="btn-action btn-deactivate" title="Finalizar"><i class="fas fa-user-slash"></i></a></td>
+                    <% } %>
                 </tr>
             <% }) %>
         </tbody>

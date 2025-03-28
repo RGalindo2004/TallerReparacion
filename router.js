@@ -213,12 +213,6 @@ router.get('/equipos', (req, res) => {
     });
 });
 
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> bb9556bc0096896b4629e56eeb1a2eb2938661ab
 router.get('/crearequipo', (req, res) => {
     conexion.query('SELECT * FROM equipo', (error, resultadoEquipo) => {
         if (error) {

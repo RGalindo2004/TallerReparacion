@@ -17,12 +17,14 @@
 
     <h1>Lista de usuarios</h1>
 
-    <% if (tipoUsuario === 'Administrador') { %>
-        <a href="/crearusuario">Crear usuario</a>
-        <a href="/usuariosdes">Ver usuarios desactivados</a>
-    <% } %>
+    <div class="action-buttons">
+        <% if (tipoUsuario === 'Administrador') { %>
+            <a href="/crearusuario" class="btn btn-success">Crear usuario <i class="fas fa-user-plus"></i></a>
+            <a href="/usuariosdes" class="btn btn-info">Ver usuarios desactivados <i class="fas fa-users-slash"></i></a>
+        <% } %>
+    </div>
     
-    <table>
+    <table class="enhanced-table">
         <thead>
             <tr>
                 <th>Código</th>
@@ -53,13 +55,13 @@
                     <td><%= dato.genero %></td>
                     <td><%= dato.estado %></td>
                     <td><%= dato.tipo %></td>
-                    <td><a href="/verusuario/<%= dato.codigo %>">Ver</a></td>
+                    <td><a href="/verusuario/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a></td>
                     <% if (tipoUsuario === 'Administrador') { %>
-                        <td><a href="/editarusuario/<%= dato.codigo %>">Editar</a></td>
-                        <td><a href="/desactivarusuario/<%= dato.codigo %>">Desactivar</a></td>
+                        <td><a href="/editarusuario/<%= dato.codigo %>" class="btn-action btn-edit" title="Editar"><i class="fas fa-edit"></i></a></td>
+                        <td><a href="/desactivarusuario/<%= dato.codigo %>" class="btn-action btn-deactivate" title="Desactivar"><i class="fas fa-user-slash"></i></a></td>
                     <% } %>
                 </tr>
-                <% }) %>
+            <% }) %>
         </tbody>
     </table>
 </body>
