@@ -15,7 +15,11 @@
 
 <body>
     <h1>Lista de usuarios</h1>
-    <a href="/crearusuario">Crear usuario</a>
+
+    <% if (tipoUsuario === 'Administrador') { %>
+        <a href="/crearusuario">Crear usuario</a>
+        <a href="/usuariosdes">Ver usuarios desactivados</a>
+    <% } %>
     
     <table>
         <thead>
@@ -30,12 +34,14 @@
                 <th>Estado</th>
                 <th>Tipo</th>
                 <th></th>
-                <th></th>
-                <th></th>
+                <% if (tipoUsuario === 'Administrador') { %>
+                    <th></th>
+                    <th></th>
+                <% } %>
             </tr>
         </thead>
         <tbody>
-            <% usuario.forEach((dato)=>{ %>
+            <% usuario.forEach((dato) => { %>
                 <tr>
                     <td><%= dato.codigo %></td>
                     <td><%= dato.nombre %></td>
@@ -47,12 +53,13 @@
                     <td><%= dato.estado %></td>
                     <td><%= dato.tipo %></td>
                     <td><a href="/verusuario/<%= dato.codigo %>">Ver</a></td>
-                    <td><a href="/editarusuario/<%= dato.codigo %>">Editar</a></td>
-                    <td><a href="/desactivarusuario/<%= dato.codigo %>">Desactivar</a></td>
+                    <% if (tipoUsuario === 'Administrador') { %>
+                        <td><a href="/editarusuario/<%= dato.codigo %>">Editar</a></td>
+                        <td><a href="/desactivarusuario/<%= dato.codigo %>">Desactivar</a></td>
+                    <% } %>
                 </tr>
             <% }) %>
         </tbody>
-        <a href="/usuariosdes">Ver usuarios desactivados</a>
     </table>
 </body>
 

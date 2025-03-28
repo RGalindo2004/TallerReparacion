@@ -15,9 +15,17 @@
 
 <body>
     <h1>Menú</h1>
-    <a href="/usuarios">Ver Usuarios</a>
-    <a href="/equipos">Ver Equipos</a>
-    <a href="/asignacion_equipo">Asignaciones de los equipos</a>
+    
+    <% if (tipoUsuario === 'Administrador' || tipoUsuario === 'Supervisor') { %>
+        <a href="/usuarios">Ver Usuarios</a>
+        <a href="/equipos">Ver Equipos</a>
+        <a href="/asignacion_equipo">Asignaciones de los equipos</a>
+    <% } else if (tipoUsuario === 'Tecnico') { %>
+        <a href="/equipos">Ver Equipos</a>
+        <a href="/asignacion_equipo">Asignaciones de los equipos</a>
+    <% } else if (tipoUsuario === 'Usuario_Final') { %>
+        <a href="/equipos">Ver Equipos</a>
+    <% } %>
 </body>
 
 </html>

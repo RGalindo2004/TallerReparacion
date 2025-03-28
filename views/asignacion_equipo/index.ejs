@@ -15,8 +15,13 @@
 
 <body>
     <h1>Asignaciones de los equipos</h1>
-    <a href="/crearasignacion">Asignar equipo a tecnico</a>
+
+    <% if (tipoUsuario !== 'Tecnico') { %>
+        <a href="/crearasignacion">Asignar equipo a técnico</a>
+    <% } %>
+
     <a href="/asignacion_equipofin">Ver asignaciones finalizadas</a>
+
     <table>
         <thead>
             <tr>
@@ -32,32 +37,21 @@
             </tr>
         </thead>
         <tbody>
-            <% asignacion_equipo.forEach((dato)=>{ %>
+            <% asignacion_equipo.forEach((dato) => { %>
                 <tr>
-                    <td>
-                        <%= dato.codigo %>
-                    </td>
-                    <td>
-                        <%= dato.equipo %>
-                    </td>
-                    <td>
-                        <%= dato.tecnico %>
-                    </td>
-
-                    <td>
-                        <%= dato.fecha_asignacion %>
-                    </td>
-                    <td>
-                        En progreso...
-                    </td>
-                    <td>
-                        <%= dato.estado %>
-                    </td>
+                    <td><%= dato.codigo %></td>
+                    <td><%= dato.equipo %></td>
+                    <td><%= dato.tecnico %></td>
+                    <td><%= dato.fecha_asignacion %></td>
+                    <td>En progreso...</td>
+                    <td><%= dato.estado %></td>
                     <td><a href="/verasignacion/<%= dato.codigo %>">Ver</a></td>
-                    <td><a href="/editarasignacion/<%= dato.codigo %>">Editar</a></td>
-                    <td><a href="/finalizarasignacion/<%= dato.codigo %>">Finalizar</a></td>
+                    <% if (tipoUsuario !== 'Tecnico') { %>
+                        <td><a href="/editarasignacion/<%= dato.codigo %>">Editar</a></td>
+                        <td><a href="/finalizarasignacion/<%= dato.codigo %>">Finalizar</a></td>
+                    <% } %>
                 </tr>
-                <% }) %>
+            <% }) %>
         </tbody>
     </table>
 </body>

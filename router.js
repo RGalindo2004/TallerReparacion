@@ -1,6 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const conexion = require('./database/db');
+const session = require('express-session');
+
+
+router.use(session({
+    secret: 'mi_secreto_super_secreto',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } 
+}));
 
 router.get('/', (req, res) => {
     res.render('login');
@@ -19,17 +28,28 @@ router.post('/login', (req, res) => {
             const usuario = resultado[0];
 
             if (usuario.contrasena === contrasena) {
-                res.redirect('/menu');
+          
+                req.session.tipoUsuario = usuario.tipo;
+                req.session.correo = usuario.correoelectronico;
+
+                return res.redirect('/menu');
             } else {
-                res.render('login', { error: 'Usuario o contraseña incorrectos' });
+                return res.render('login', { error: 'Usuario o contraseña incorrectos' });
             }
         } else {
-            res.render('login', { error: 'Usuario o contraseña incorrectos' });
+            return res.render('login', { error: 'Usuario o contraseña incorrectos' });
         }
     });
 });
+
+
 router.get('/menu', (req, res) => {
-    res.render('index');
+    if (!req.session.tipoUsuario) {
+        return res.redirect('/'); 
+    }
+
+    // Renderizar el menú y pasar el tipo de usuario a la vista
+    res.render('index', { tipoUsuario: req.session.tipoUsuario });
 });
 
 router.get('/logout', (req, res) => {
@@ -38,17 +58,30 @@ router.get('/logout', (req, res) => {
 
 const metodos = require('./controllers/me');
 
-//USUARIOS
 router.get('/usuarios', (req, res) => {
+    // Verificar si el usuario tiene una sesión activa
+    if (!req.session || !req.session.tipoUsuario) {
+        return res.redirect('/'); // Redirigir al login si no está autenticado
+    }
+
+    // Verificar los permisos según el tipo de usuario
+    if (req.session.tipoUsuario !== 'Administrador' && req.session.tipoUsuario !== 'Supervisor') {
+        return res.status(403).send('Acceso denegado. No tienes permiso para ver esta página.');
+    }
+
+    // Si el usuario es administrador o supervisor, realizar la consulta
     conexion.query("SELECT * FROM usuario WHERE estado = 'ACT'", (error, resultado) => {
         if (error) {
             console.log(error);
-            return;
+            return res.status(500).send('Ocurrió un error en la base de datos.');
         }
 
-        res.render('usuario/index', { usuario: resultado });
+        // Renderizar la vista y pasar `tipoUsuario`
+        res.render('usuario/index', { usuario: resultado, tipoUsuario: req.session.tipoUsuario });
     });
 });
+
+
 
 router.get('/usuariosdes', (req, res) => {
     conexion.query("SELECT * FROM usuario WHERE estado = 'INA'", (error, resultado) => {
@@ -139,15 +172,49 @@ router.get('/verusuario/:id', (req, res) => {
 
 //EQUIPOS
 router.get('/equipos', (req, res) => {
-    conexion.query("SELECT * FROM equipo", (error, resultado) => {
+    if (!req.session || !req.session.tipoUsuario) {
+        return res.redirect('/'); // Redirigir al login si no hay sesión activa
+    }
+
+    const tipoUsuario = req.session.tipoUsuario;
+    const correoUsuario = req.session.correo; // Obtener el correo electrónico del usuario autenticado
+
+    let query = '';
+    let params = [];
+
+    if (tipoUsuario === 'Usuario_Final') {
+        // Mostrar solo los equipos que pertenecen al usuario
+        query = `
+            SELECT equipo.codigo, equipo.numero_serie, equipo.marca, equipo.modelo, equipo.descripcion, equipo.estado, equipo.tipo_equipo, 
+                   CONCAT(usuario.nombre, ' ', usuario.apellido) AS nombre_usuario
+            FROM equipo
+            JOIN usuario ON usuario.codigo = equipo.usuario
+            WHERE usuario.correoelectronico = ? AND usuario.estado = 'ACT'
+        `;
+        params = [correoUsuario];
+    } else {
+        // Mostrar todos los equipos para otros tipos de usuarios
+        query = `
+            SELECT equipo.codigo, equipo.numero_serie, equipo.marca, equipo.modelo, equipo.descripcion, equipo.estado, equipo.tipo_equipo, 
+                   CONCAT(usuario.nombre, ' ', usuario.apellido) AS nombre_usuario
+            FROM equipo
+            JOIN usuario ON usuario.codigo = equipo.usuario
+            WHERE usuario.estado = 'ACT'
+        `;
+    }
+
+    conexion.query(query, params, (error, resultado) => {
         if (error) {
             console.log(error);
-            return;
+            return res.status(500).send('Ocurrió un error en la base de datos.');
         }
 
-        res.render('equipo/index', { equipo: resultado });
+        res.render('equipo/index', { equipo: resultado, tipoUsuario });
     });
 });
+
+
+
 
 router.get('/crearequipo', (req, res) => {
     conexion.query('SELECT * FROM equipo', (error, resultadoEquipo) => {
@@ -278,29 +345,58 @@ router.post('/editmarca', metodos.editmarca);
 
 //ASIGNACIÓN DE EQUIPOS
 router.get('/asignacion_equipo', (req, res) => {
-    const query = `
-        SELECT 
-            a.codigo, 
-            CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
-            CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
-            a.fecha_asignacion,
-            a.fecha_finalizacion, 
-            a.estado
-        FROM asignacion_equipo a
-        JOIN equipo e ON a.equipo_codigo = e.codigo
-        JOIN usuario u ON a.usuario_codigo = u.codigo
-        WHERE a.estado = 'ACTIVO' AND u.tipo = 'Tecnico'
-    `;
+    if (!req.session || !req.session.tipoUsuario) {
+        return res.redirect('/'); 
+    }
 
-    conexion.query(query, (error, resultado) => {
+    const tipoUsuario = req.session.tipoUsuario;
+    const usuarioCodigo = req.session.usuarioCodigo; 
+    let query = '';
+    let params = [];
+
+    if (tipoUsuario === 'Tecnico') {
+        
+        query = `
+            SELECT 
+                a.codigo, 
+                CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
+                CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
+                a.fecha_asignacion,
+                a.fecha_finalizacion, 
+                a.estado
+            FROM asignacion_equipo a
+            JOIN equipo e ON a.equipo_codigo = e.codigo
+            JOIN usuario u ON a.usuario_codigo = u.codigo
+            WHERE a.estado = 'ACTIVO' AND u.codigo = ?
+        `;
+        params = [usuarioCodigo];
+    } else {
+        
+        query = `
+            SELECT 
+                a.codigo, 
+                CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
+                CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
+                a.fecha_asignacion,
+                a.fecha_finalizacion, 
+                a.estado
+            FROM asignacion_equipo a
+            JOIN equipo e ON a.equipo_codigo = e.codigo
+            JOIN usuario u ON a.usuario_codigo = u.codigo
+            WHERE a.estado = 'ACTIVO' AND u.tipo = 'Tecnico'
+        `;
+    }
+
+    conexion.query(query, params, (error, resultado) => {
         if (error) {
             console.log(error);
-            return;
+            return res.status(500).send('Ocurrió un error en la base de datos.');
         }
 
-        res.render('asignacion_equipo/index', { asignacion_equipo: resultado });
+        res.render('asignacion_equipo/index', { asignacion_equipo: resultado, tipoUsuario });
     });
 });
+
 
 router.get('/asignacion_equipofin', (req, res) => {
     const query = `
@@ -557,3 +653,5 @@ router.get('/desfinalizarasignacion/:id', (req, res) => {
 router.post('/undoendasignacion_equipo', metodos.undoendasignacion_equipo);
 
 module.exports = router;
+
+

@@ -271,3 +271,5 @@ exports.editasignacion_equipo=(req,res) => {
         }
     });
 }
+
+
