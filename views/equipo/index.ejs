@@ -17,13 +17,15 @@
 
     <h1>Lista de equipos</h1>
 
-    <% if (tipoUsuario === 'Administrador' || tipoUsuario === 'Supervisor') { %>
-        <a href="/crearequipo">Crear equipo</a>
-        <a href="/tipo_equipo">Ver los tipos de equipos</a>
-        <a href="/marca">Ver la marca de los equipos</a>
-    <% } %>
+    <div class="action-buttons">
+        <% if (tipoUsuario==='Administrador' || tipoUsuario==='Supervisor' ) { %>
+        <a href="/crearequipo" class="btn btn-success">Crear equipo <i class="fas fa-plus"></i></a>
+        <a href="/tipo_equipo" class="btn btn-info">Ver los tipos de equipos  <i class="fas fa-laptop"></i></a>
+        <a href="/marca" class="btn btn-info">Ver la marca de los equipos <i class="fas fa-tag"></i></a>
+        <% } %>
+    </div>
 
-    <table>
+    <table class="enhanced-table">
         <thead>
             <tr>
                 <th>Código</th>
@@ -34,31 +36,47 @@
                 <th>Estado</th>
                 <th>Tipo de equipo</th>
                 <th>Nombre de usuario</th>
-                <% if (tipoUsuario === 'Administrador' || tipoUsuario === 'Supervisor') { %>
+                <% if (tipoUsuario==='Administrador' || tipoUsuario==='Supervisor' ) { %>
                     <th></th>
                     <th></th>
                     <th></th>
-                <% } %>
+                    <% } %>
             </tr>
         </thead>
         <tbody>
-            <% equipo.forEach((dato) => { %>
+            <% equipo.forEach((dato)=> { %>
                 <tr>
-                    <td><%= dato.codigo %></td>
-                    <td><%= dato.numero_serie %></td>
-                    <td><%= dato.marca %></td>
-                    <td><%= dato.modelo %></td>
-                    <td><%= dato.descripcion %></td>
-                    <td><%= dato.estado %></td>
-                    <td><%= dato.tipo_equipo %></td>
-                    <td><%= dato.nombre_usuario %></td>
-                    <% if (tipoUsuario === 'Administrador' || tipoUsuario === 'Supervisor') { %>
+                    <td>
+                        <%= dato.codigo %>
+                    </td>
+                    <td>
+                        <%= dato.numero_serie %>
+                    </td>
+                    <td>
+                        <%= dato.marca %>
+                    </td>
+                    <td>
+                        <%= dato.modelo %>
+                    </td>
+                    <td>
+                        <%= dato.descripcion %>
+                    </td>
+                    <td>
+                        <%= dato.estado %>
+                    </td>
+                    <td>
+                        <%= dato.tipo_equipo %>
+                    </td>
+                    <td>
+                        <%= dato.nombre_usuario %>
+                    </td>
+                    <% if (tipoUsuario==='Administrador' || tipoUsuario==='Supervisor' ) { %>
                         <td><a href="/verequipo/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a></td>
                         <td><a href="/editarequipo/<%= dato.codigo %>" class="btn-action btn-edit" title="Editar"><i class="fas fa-edit"></i></a></td>
                         <td><a href="/descartarequipo/<%= dato.codigo %>" class="btn-action btn-deactivate" title="Descartar"><i class="fas fa-trash"></i></a></td>
-                    <% } %>
+                        <% } %>
                 </tr>
-            <% }) %>
+                <% }) %>
         </tbody>
     </table>
 </body>
