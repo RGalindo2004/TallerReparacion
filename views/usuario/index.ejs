@@ -69,15 +69,11 @@
                     <td>
                         <%= dato.tipo %>
                     </td>
-                    <td>
-                        <div class="actions-container">
-                            <a href="/verusuario/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a>
-                            <a href="/editarusuario/<%= dato.codigo %>" class="btn-action btn-edit" title="Editar"><i class="fas fa-edit"></i></a>
-                            <a href="/desactivarusuario/<%= dato.codigo %>" class="btn-action btn-deactivate"
-                                title="Desactivar">
-                                <i class="fas fa-user-slash"></i></a>
-                        </div>
-                    </td>
+                    <div class="actions-container">
+                        <td><a href="/verusuario/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a></td>
+                        <td><a href="/editarusuario/<%= dato.codigo %>" class="btn-action btn-edit" title="Editar"><i class="fas fa-edit"></i></a></td>
+                        <td><a href="/desactivarusuario/<%= dato.codigo %>" class="btn-action btn-deactivate" title="Desactivar"><i class="fas fa-user-slash"></i></a></td>
+                    </div>
                 </tr>
                 <% }) %>
         </tbody>

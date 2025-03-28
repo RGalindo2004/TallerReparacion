@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizar la asignación de equipo</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+    <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
 </header>
 
 <body>
@@ -43,7 +44,7 @@
         <label for="">Estado</label>
         <input type="text" value="<%= asignacion_equipo.estado %>" readonly>
 
-        <a href="/asignacion_equipofin">Volver</a>
+        <a href="/asignacion_equipofin" class="btn btn-secondary">Volver <i class="fas fa-arrow-left"></i></a>
     </form>
 </body>
 

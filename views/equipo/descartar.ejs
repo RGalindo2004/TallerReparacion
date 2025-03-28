@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Descartar equipo</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
     <h1>Crear equipo</h1>
     <form action="/deleteequipo" method="post">
 
@@ -29,14 +31,15 @@
 
         <label for="">Descripción</label>
         <input type="text" name="descripcion" id="descripcion" value="<%= equipo.descripcion %>" readonly>
-        
+
         <label for="">Estado</label>
         <input type="text" name="estado" id="estado" value="<%= equipo.estado %>" readonly>
 
         <label for="tipo_equipo">Tipo de equipo</label>
         <input type="text" name="tipo_equipo" id="tipo_equipo" value="<%= equipo.tipo_equipo %>" readonly>
 
-        <button type="submit">Descartar equipo</button>
+        <button type="submit" class="logout-btn">Descartar equipo <i class="fas fa-trash-alt"></i></button>
     </form>
 </body>
+
 </html>

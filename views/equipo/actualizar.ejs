@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear equipo</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
     <h1>Actualizar Equipo</h1>
     <form action="/actualizarequipo" method="post">
-        <label for =""> Id</label>
+        <label for=""> Id</label>
         <input type="text" name="codigo" id="codigo" value="<%= equipo.codigo %>" readonly>
 
         <label for="">Número de serie</label>
@@ -23,11 +25,11 @@
 
         <label for="marca">Marca</label>
         <select name="marca" id="marca" value="<%= equipo.marca %>" required>
-            <% marcas.forEach((marca) => { %>
+            <% marcas.forEach((marca)=> { %>
                 <option value="<%= marca.nombre %>">
                     <%= marca.nombre %>
                 </option>
-            <% }); %>
+                <% }); %>
         </select>
 
         <label for="">Modelo</label>
@@ -35,7 +37,7 @@
 
         <label for="">Descripción</label>
         <input type="text" name="descripcion" id="descripcion" value="<%= equipo.descripcion %>" required>
-        
+
         <label for="">Estado</label>
         <select name="estado" id="estado" required>
             <option value="INGRESADO">Ingresado</option>
@@ -46,14 +48,15 @@
 
         <label for="tipo_equipo" value="<%= equipo.tipo_equipo %>">Tipo de equipo</label>
         <select name="tipo_equipo" id="tipo_equipo">
-            <% tipos.forEach((dato) => { %>
+            <% tipos.forEach((dato)=> { %>
                 <option value="<%= dato.nombre %>">
                     <%= dato.nombre %>
                 </option>
                 <% }); %>
         </select>
 
-        <button type="submit">Actualizar Equipo</button>
+        <button type="submit" class="btn btn-success">Actualizar Equipo <i class="fas fa-save"></i></button>
     </form>
 </body>
+
 </html>
