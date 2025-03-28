@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear usuario</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
     <h1>Crear usuario</h1>
     <form action="/saveusuario" method="post">
 
@@ -42,14 +44,15 @@
 
         <label for="tipo">Tipo de usuario</label>
         <select name="tipo" id="tipo">
-            <% tipos.forEach((dato) => { %>
+            <% tipos.forEach((dato)=> { %>
                 <option value="<%= dato.nombre %>">
                     <%= dato.nombre %>
                 </option>
                 <% }); %>
         </select>
 
-        <button type="submit">Crear usuario</button>
+        <button type="submit" class="btn btn-success">Crear usuario <i class="fas fa-plus"></i></button>
     </form>
 </body>
+
 </html>

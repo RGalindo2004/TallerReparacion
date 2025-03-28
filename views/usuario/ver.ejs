@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver usuario</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+    <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+    <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
 </header>
 
 <body>
@@ -42,7 +43,7 @@
         <label for="tipo">Tipo de usuario</label>
         <input type="text" name="tipo" id="tipo" value="<%= usuario.tipo %>" required>
 
-        <a href="/usuarios">Volver</a>
+        <a href="/usuarios" class="btn btn-secondary">Volver <i class="fas fa-arrow-left"></i></a>
     </form>
 </body>
 </html>

@@ -13,6 +13,38 @@ header {
     color: #333;
 }
 
+.menu-container {
+    max-width: 300px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-container a {
+    display: block;
+    margin: 15px 0;
+    padding: 12px;
+    background-color: #6A5ACD;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.menu-container a:hover {
+    background-color: #5F4B8B;
+}
+
+.menu-container a i {
+    margin-right: 10px;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
 .logout-btn {
     display: inline-block;
     background-color: #f44336;
@@ -33,7 +65,7 @@ header {
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #E6E6FA;
     margin: 0;
     padding: 20px;
     color: #333;
@@ -43,7 +75,7 @@ h1 {
     color: white;
     text-align: center;
     padding: 20px;
-    background-color: #3498db;
+    background-color: #4169E1;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -101,8 +133,8 @@ a:hover {
 }
 
 form {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 400px;
+    margin: 30px auto;
     padding: 20px;
     background-color: white;
     border-radius: 8px;
@@ -121,18 +153,27 @@ select {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #E0E0E0;
     border-radius: 4px;
     font-size: 16px;
     color: #333;
     background-color: #f9f9f9;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 button,
 input[type="submit"] {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #e74c3c;
+    background-color: #28A745;
     color: white;
     border: none;
     border-radius: 4px;
@@ -143,7 +184,7 @@ input[type="submit"] {
 
 button:hover,
 input[type="submit"]:hover {
-    background-color: #c0392b;
+    background-color: #208638;
     transform: translateY(-2px);
 }
 
@@ -163,3 +204,69 @@ a:hover {
     transform: translateY(-2px);
 }
 
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-view {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: white;
+}
+
+.btn-deactivate {
+    background-color: #dc3545;
+    color: white;
+}
+
+.actions-container {
+    display: flex;
+    gap: 8px;
+}
+
+.enhanced-table {
+    margin-top: 20px;
+}
+
+.enhanced-table th {
+    background-color: #6A5ACD;
+}
+
+.btn-secondary {
+    background-color: #6C757D;
+    color: white;
+}
+
+.btn-success {
+    background-color: #28A745;
+    color: white;
+}
+
+.btn-info {
+    background-color: #4169E1;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5A6268;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-info:hover {
+    background-color: #3359ca;
+}

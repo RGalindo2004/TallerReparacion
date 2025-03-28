@@ -6,14 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+<<<<<<< HEAD
     <h1>Menú</h1>
     
     <% if (tipoUsuario === 'Administrador' || tipoUsuario === 'Supervisor') { %>
@@ -26,6 +23,19 @@
     <% } else if (tipoUsuario === 'Usuario_Final') { %>
         <a href="/equipos">Ver Equipos</a>
     <% } %>
+=======
+    <header>
+        <div></div>
+        <a href="/logout" class="logout-btn">Cerrar Sesión  <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
+    <h1>Menú Principal</h1>
+    <div class="menu-container">
+        <a href="/usuarios"><i class="fas fa-users"></i> Ver Usuarios</a>
+        <a href="/equipos"><i class="fas fa-laptop"></i> Ver Equipos</a>
+        <a href="/asignacion_equipo"><i class="fas fa-tasks"></i> Asignaciones de equipos</a>
+    </div>
+>>>>>>> bb9556bc0096896b4629e56eeb1a2eb2938661ab
 </body>
 
 </html>

@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desactivar usuario</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
-    <h1>Desactivar usuario de <%= usuario.nombre %> <%= usuario.apellido %> (<%= usuario.codigo %>)</h1>
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
+    <h1>Desactivar usuario de <%= usuario.nombre %>
+            <%= usuario.apellido %> (<%= usuario.codigo %>)</h1>
     <form action="/disableusuario" method="POST">
 
         <input type="hidden" name="codigo" id="codigo" value="<%= usuario.codigo %>">
@@ -25,16 +28,18 @@
         <input type="text" name="apellido" id="apellido" value="<%= usuario.apellido %>" readonly>
 
         <label for="correoelectronico">Correo Electrónico</label>
-        <input type="email" name="correoelectronico" id="correoelectronico" value="<%= usuario.correoelectronico %>" readonly>
+        <input type="email" name="correoelectronico" id="correoelectronico" value="<%= usuario.correoelectronico %>"
+            readonly>
 
         <label for="telefono">Telefono</label>
         <input type="tel" name="telefono" id="telefono" value="<%= usuario.telefono %>" readonly>
-        
+
         <label for="tipo">Tipo de usuario</label>
         <input type="text" name="tipo" id="tipo" value="<%= usuario.tipo %>" readonly>
 
-        <button type="submit">Desactivar</button>
-        <a href="/usuarios">Cancelar</a>
+        <button type="submit" class="logout-btn">Desactivar <i class="fas fa-clipboard-check"></i></button>
+        <a href="/usuarios" class="btn btn-secondary">Cancelar <i class="fas fa-arrow-left"></i></a>
     </form>
 </body>
+
 </html>

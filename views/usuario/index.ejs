@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de usuarios</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
     <h1>Lista de usuarios</h1>
 
     <% if (tipoUsuario === 'Administrador') { %>
@@ -58,7 +59,7 @@
                         <td><a href="/desactivarusuario/<%= dato.codigo %>">Desactivar</a></td>
                     <% } %>
                 </tr>
-            <% }) %>
+                <% }) %>
         </tbody>
     </table>
 </body>

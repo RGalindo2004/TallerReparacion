@@ -6,24 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios desactivos</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
     <h1>Usuarios desactivos</h1>
-    <a href="/crearusuario">Crear empleado</a>
-    <table>
+    <a href="/crearusuario" class="btn btn-success">Crear empleado <i class="fas fa-plus"></i></a>
+    <a href="/usuarios" class="btn btn-info">Ver lista de usuarios <i class="fas fa-eye"></i></a>
+    <table class="enhanced-table">
         <thead>
             <tr>
                 <th>Código</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo Electrónico</th>
-        
                 <th>Telefono</th>
                 <th>Fecha de nacimiento</th>
                 <th>Género</th>
@@ -62,10 +64,9 @@
                     <td>
                         <%= dato.tipo %>
                     </td>
-                    <td><a href="/activarusuario/<%= dato.codigo %>">Activar</a></td>
+                    <td><a href="/activarusuario/<%= dato.codigo %>" class="btn-action btn-view" title="Activar"><i class="fas fa-eye"></i></a></td>
                 </tr>
                 <% }) %>
         </tbody>
-        <a href="/usuarios">Ver lista de usuarios</a>
     </table>
 </body>

@@ -6,18 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de tipos de equipos</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
     <h1>Lista de tipos equipos</h1>
-    <a href="/creartipoequipo">Crear tipo de equipo</a>
-    
-    <table>
+
+    <div class="action-buttons">
+        <a href="/creartipoequipo" class="btn btn-success">Crear tipo de equipo <i class="fas fa-plus"></i></a>
+        <a href="/equipos" class="btn btn-secondary">Volver <i class="fas fa-arrow-left"></i></a>
+    </div>
+
+    <table class="enhanced-table">
         <thead>
             <tr>
                 <th>Código</th>
@@ -29,15 +34,21 @@
         <tbody>
             <% tipo_equipo.forEach((dato)=>{ %>
                 <tr>
-                    <td><%= dato.codigo %></td>
-                    <td><%= dato.nombre %></td>
-                    <td><a href="/editartipoequipo/<%= dato.codigo %>">Editar</a></td>
-                    <td><a href="/eliminartipoequipo/<%= dato.codigo %>">Eliminar</a></td>
+                    <td>
+                        <%= dato.codigo %>
+                    </td>
+                    <td>
+                        <%= dato.nombre %>
+                    </td>
+                    <div class="actions-container">
+                        <td><a href="/editartipoequipo/<%= dato.codigo %>" class="btn-action btn-edit" title="Editar"><i class="fas fa-edit"></i></a></td>
+                        <td><a href="/eliminartipoequipo/<%= dato.codigo %>" class="btn-action btn-deactivate" title="Eliminar"><i class="fas fa-trash-alt"></i></a></td>
+                    </div>
                 </tr>
-            <% }) %>
+                <% }) %>
         </tbody>
     </table>
-    <div><a href="/equipos">Volver</a></div>
+
 </body>
 
 </html>

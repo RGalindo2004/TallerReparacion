@@ -6,21 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizar la asignación de equipo</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <div><a href="/menu">Volver al menú</a></div>
-    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
-</header>
-
 <body>
+    <header>
+        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
     <h1>Deshacer el finalizar la asignación del equipo (<%= asignacion_equipo.codigo %>)</h1>
     <form action="/undoendasignacion_equipo" method="post">
 
         <input type="hidden" name="codigo" value="<%= asignacion_equipo.codigo %>">
 
         <label for="equipo_codigo">Equipo</label>
-        <input type="text" value="<%= asignacion_equipo.marca + ' ' + asignacion_equipo.modelo + ' - ' + asignacion_equipo.numero_serie %>" readonly>
+        <input type="text"
+            value="<%= asignacion_equipo.marca + ' ' + asignacion_equipo.modelo + ' - ' + asignacion_equipo.numero_serie %>"
+            readonly>
         <input type="hidden" name="equipo_codigo" value="<%= asignacion_equipo.equipo_codigo %>">
 
         <label for="tecnico_codigo">Técnico</label>
@@ -43,8 +46,8 @@
         <label for="">Estado</label>
         <input type="text" value="<%= asignacion_equipo.estado %>" readonly>
 
-        <button type="submit">Deshacer el finalizar asignacion</button>
-        <a href="/asignacion_equipo">Cancelar</a>
+        <button type="submit">Deshacer el finalizar asignacion <i class="fas fa-tools"></i></button>
+        <a href="/asignacion_equipo" class="btn btn-secondary">Cancelar <i class="fas fa-arrow-left"></i></a>
     </form>
 </body>
 

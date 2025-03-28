@@ -73,14 +73,36 @@ exports.saveequipo=(req,res) => {
     const descripcion = req.body.descripcion;
     const estado = req.body.estado;
     const tipo_equipo = req.body.tipo_equipo;
+    const usuario = req.body.usuario;
 
-    conexion.query('INSERT INTO equipo SET ?',{numero_serie:numero_serie,marca:marca,modelo:modelo,descripcion:descripcion,estado:estado, tipo_equipo:tipo_equipo},(error,results)=>{
+    conexion.query('INSERT INTO equipo SET ?',{numero_serie:numero_serie,marca:marca,modelo:modelo,descripcion:descripcion,estado:estado, tipo_equipo:tipo_equipo, usuario:usuario},(error,results)=>{
         if(error){
             console.log(error);
         }else{
             res.redirect('/equipos');
         }
     });
+}
+
+exports.actualizarequipo=(req,res) => {
+    const codigo = req.body.codigo;
+    const numero_serie = req.body.numero_serie;
+    const marca = req.body.marca;
+    const modelo = req.body.modelo;
+    const descripcion = req.body.descripcion;
+    const estado = req.body.estado;
+    const tipo_equipo = req.body.tipo_equipo;
+
+    conexion.query('UPDATE equipo SET numero_serie = ?, marca = ?, modelo = ?, descripcion = ?, estado = ?, tipo_equipo = ? WHERE codigo = ?',
+        [numero_serie, marca, modelo, descripcion, estado, tipo_equipo, codigo],
+        (error) => {
+            if (error) {
+                console.log(error);
+            } else {
+                res.redirect('/equipos');
+            }
+        }
+    );
 }
 
 exports.deleteequipo = (req, res) => {
