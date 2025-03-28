@@ -169,7 +169,7 @@ router.get('/crearequipo', (req, res) => {
                     return res.status(500).send("Error en la base de datos");
                 }
 
-                // Modificar la consulta para solo seleccionar usuarios de tipo 'cliente'
+                
                 conexion.query('SELECT * FROM usuario WHERE tipo = "cliente"', (error, resultadoUsuario) => {
                     if (error) {
                         console.log(error);
