@@ -256,7 +256,7 @@ router.get('/crearequipo', (req, res) => {
 
 router.post('/saveequipo', metodos.saveequipo);
 
-//EDITAR EQUIPO (temp)
+//EDITAR EQUIPO 
 router.get('/actualizarequipo/:id', (req, res) => {
     const codigo = req.params.id;
     conexion.query('SELECT * FROM equipo WHERE codigo = ?', [codigo], (error, resultadoEquipo) => {
