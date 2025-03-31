@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <a href="/reportes" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
+    <h1>Reporte de Usuarios Activos/Inactivos</h1>
+    
+    
+    <a href="#" onclick="exportarPDF()" class="btn btn-success">Exportar a PDF<i class="fas fa-download"></i></a>
+
+    <table id="tablaUsuarios">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Estado</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% usuarios.forEach(usuario => { %>
+                <tr>
+                    <td><%= usuario.nombre %></td>
+                    <td><%= usuario.apellido %></td>
+                    <td><%= usuario.estado %></td>
+                    <td><%= usuario.tipo %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            
+            $('#tablaUsuarios').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]]
+            });
+        });
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            doc.setFontSize(16);
+            doc.text("REPORTE DE USUARIOS ACTIVOS/INACTIVOS", 105, 15, { align: "center" });
+
+            let tabla = document.getElementById("tablaUsuarios");
+            let filas = tabla.querySelectorAll("tbody tr");
+            let datos = [];
+            filas.forEach(fila => {
+                let celdas = fila.querySelectorAll("td");
+                let filaDatos = [];
+                celdas.forEach(celda => filaDatos.push(celda.innerText));
+                datos.push(filaDatos);
+            });
+
+            let encabezados = [["Nombre", "Apellido", "Estado", "Tipo"]];
+            doc.autoTable({ head: encabezados, body: datos, startY: 25 });
+            doc.save("reporte_usuarios.pdf");
+        }
+    </script>
+</body>
+
+</html>

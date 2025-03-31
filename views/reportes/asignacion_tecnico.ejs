@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Asignación de Equipos por Técnico</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<header>
+    <a href="/reportes" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+    <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+</header>
+
+<body>
+    <h1>Reporte de Asignación de Equipos por Técnico</h1>
+    <a class="btn btn-success" onclick="exportarPDF()">Exportar a PDF<i class="fas fa-download"></i></a>
+    <a class="btn btn-info" onclick="mostrarGrafico()">Ver Gráfico<i class="fas fa-chart-pie"></i></a>
+
+    <div id="modalGrafico" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarGrafico()">&times;</span>
+            <canvas id="graficoAsignaciones" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <table id="tablaAsignaciones">
+        <thead>
+            <tr>
+                <th>Técnico</th>
+                <th>Equipos Asignados</th>
+                <th>Equipos en Reparación</th>
+                <th>Equipos Finalizados</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% asignaciones.forEach(asignacion => { %>
+                <tr>
+                    <td><%= asignacion.tecnico %></td>
+                    <td><%= asignacion.equipos_asignados %></td>
+                    <td><%= asignacion.equipos_en_reparacion %></td>
+                    <td><%= asignacion.equipos_finalizados %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        let chartInstance;
+
+        $(document).ready(function() {
+            $('#tablaAsignaciones').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]]
+            });
+        });
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            doc.setFontSize(16);
+            doc.text("REPORTE DE ASIGNACIÓN DE EQUIPOS POR TECNICO", 105, 15, { align: "center" });
+            let tabla = document.getElementById("tablaAsignaciones");
+            let filas = tabla.querySelectorAll("tbody tr");
+            let datos = [];
+            filas.forEach(fila => {
+                let celdas = fila.querySelectorAll("td");
+                let filaDatos = [];
+                celdas.forEach(celda => filaDatos.push(celda.innerText));
+                datos.push(filaDatos);
+            });
+            let encabezados = [["Técnico", "Equipos Asignados", "Equipos en Reparación", "Equipos Finalizados"]];
+            doc.autoTable({ head: encabezados, body: datos, startY: 25 });
+
+            let canvas = document.getElementById("graficoAsignaciones");
+            let imgData = canvas.toDataURL("image/png");
+            doc.addImage(imgData, "PNG", 10, doc.autoTable.previous.finalY + 10, 180, 100);
+            doc.save("reporte_asignaciones.pdf");
+        }
+
+        function mostrarGrafico() {
+            document.getElementById("modalGrafico").style.display = "block";
+            let tecnicos = [];
+            let asignados = [];
+            let enReparacion = [];
+            let finalizados = [];
+            document.querySelectorAll("#tablaAsignaciones tbody tr").forEach(tr => {
+                let tds = tr.querySelectorAll("td");
+                tecnicos.push(tds[0].innerText);
+                asignados.push(parseInt(tds[1].innerText));
+                enReparacion.push(parseInt(tds[2].innerText));
+                finalizados.push(parseInt(tds[3].innerText));
+            });
+            let ctx = document.getElementById("graficoAsignaciones").getContext("2d");
+            if (chartInstance) chartInstance.destroy();
+            chartInstance = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: tecnicos,
+                    datasets: [
+                        { label: "Asignados", data: asignados, backgroundColor: "blue" },
+                        { label: "En Reparación", data: enReparacion, backgroundColor: "orange" },
+                        { label: "Finalizados", data: finalizados, backgroundColor: "#28A745" }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: "top" } }
+                }
+                
+            });
+        }
+
+        function cerrarGrafico() {
+            document.getElementById("modalGrafico").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Estado de Reparación</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <a href="/reportes" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
+    <h1>Reporte de Estado de Reparación</h1>
+
+    <a onclick="exportarPDF()" class="btn btn-success">Exportar a PDF<i class="fas fa-download"></i></a>
+    <a onclick="mostrarGrafico()" class="btn btn-info">Ver Gráfico<i class="fas fa-chart-pie"></i></a>
+
+    <div id="modalGrafico" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarGrafico()">&times;</span>
+            <canvas id="graficoEquipos" style="width:400px; height:200px;"></canvas>
+        </div>
+    </div>
+
+    
+    <table id="tablaEquipos">
+        <thead>
+            <tr>
+                <th>Técnico</th>
+                <th>Estado de Reparación</th>
+                <th>Total de Reparaciones</th>
+                <th>Tiempo Promedio de Reparación (días)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% reparaciones.forEach(reparacion => { %>
+                <tr>
+                    <td><%= reparacion.tecnico %></td>
+                    <td><%= reparacion.estado_reparacion %></td>
+                    <td><%= reparacion.total_reparaciones %></td>
+                    <td><%= reparacion.tiempo_promedio_dias %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        let chartInstance;
+
+        $(document).ready(function() {
+            
+            $('#tablaEquipos').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]]
+            });
+        });
+
+        function exportarPDF() {
+        const { jsPDF } = window.jspdf;
+        let doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text("REPORTE DE ESTADO DE REPARACIÓN", 105, 15, { align: "center" });
+
+        let tabla = document.getElementById("tablaEquipos");
+        let filas = tabla.querySelectorAll("tbody tr");
+        let datos = [];
+        filas.forEach(fila => {
+        let celdas = fila.querySelectorAll("td");
+        let filaDatos = [];
+        celdas.forEach(celda => filaDatos.push(celda.innerText));
+        datos.push(filaDatos);
+        });
+
+        let encabezados = [["Técnico", "Estado de Reparación", "Total de Reparaciones", "Tiempo Promedio de Reparación (días)"]];
+        doc.autoTable({ head: encabezados, body: datos, startY: 25 });
+
+    
+        let canvas = document.getElementById("graficoEquipos");
+
+        setTimeout(() => {
+            let imgData = canvas.toDataURL("image/png");
+            doc.addImage(imgData, "PNG", 30, doc.autoTable.previous.finalY + 10, 140, 90);
+            doc.save("reporte_estado_reparacion.pdf");
+        }, 500);
+        }
+
+        function mostrarGrafico() {
+            document.getElementById("modalGrafico").style.display = "block";
+
+            let tecnicos = [];
+            let reparacionesActivas = [];
+            let tiemposPromedio = [];
+            let colores = [];
+
+            // Filtrar solo los técnicos con estado "activo"
+            document.querySelectorAll("#tablaEquipos tbody tr").forEach(tr => {
+                let tds = tr.querySelectorAll("td");
+                let estado = tds[1].innerText; // Obtener estado de reparación
+                if (estado.toLowerCase() === "activo") {
+                    tecnicos.push(tds[0].innerText); // Técnico
+                    reparacionesActivas.push(parseInt(tds[2].innerText)); // Total reparaciones
+                    tiemposPromedio.push(parseFloat(tds[3].innerText)); // Promedio de días
+                    colores.push(`hsl(${Math.random() * 360}, 70%, 60%)`);
+                }
+            });
+
+            let ctx = document.getElementById("graficoEquipos").getContext("2d");
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: "bar", // Gráfico de barras
+                data: {
+                    labels: tecnicos,
+                    datasets: [
+                        {
+                            label: "Total de Reparaciones",
+                            data: reparacionesActivas,
+                            backgroundColor: colores,
+                            borderColor: colores,
+                            borderWidth: 1,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: "Tiempo Promedio de Reparación (días)",
+                            data: tiemposPromedio,
+                            type: 'line',
+                            borderColor: 'rgb(75, 192, 192)',
+                            fill: false,
+                            yAxisID: 'y2'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: "top" }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'left',
+                            beginAtZero: true
+                        },
+                        y2: {
+                            type: 'linear',
+                            position: 'right',
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function cerrarGrafico() {
+            document.getElementById("modalGrafico").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

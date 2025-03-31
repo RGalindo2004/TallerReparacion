@@ -81,6 +81,18 @@ router.get('/usuarios', (req, res) => {
     });
 });
 
+//REPORTES
+router.get('/reportes', (req, res) => {
+    res.render('reportes/index');  
+});
+// Rutas para los reportes
+router.get('/reportes/asignacion_tecnico', metodos.reporteAsignacionTecnico);
+router.get('/reportes/equipos_estado', metodos.reporteEquiposEstado);
+router.get('/reportes/equipos_marca', metodos.reporteEquiposMarca);
+router.get('/reportes/usuario_estado', metodos.reporteUsuariosEstado);
+router.get('/reportes/equipos_tipo', metodos.reporteEquiposTipo);
+router.get('/reportes/estado_reparacion', metodos.reporteEstadoReparacion);
+///
 
 
 router.get('/usuariosdes', (req, res) => {

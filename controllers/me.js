@@ -294,4 +294,122 @@ exports.editasignacion_equipo=(req,res) => {
     });
 }
 
+//REPORTES
+exports.reporteAsignacionTecnico = (req, res) => {
+    conexion.query(`
+        SELECT u.nombre AS tecnico, 
+               
+               COUNT(CASE WHEN ae.estado IN ('ACTIVO', 'FINALIZADO') THEN 1 END) AS equipos_asignados,
+               COUNT(CASE WHEN ae.estado = 'ACTIVO' THEN 1 END) AS equipos_en_reparacion,
+               COUNT(CASE WHEN ae.estado = 'FINALIZADO' THEN 1 END) AS equipos_finalizados
+               
+        FROM asignacion_equipo ae
+        JOIN usuario u ON ae.usuario_codigo = u.codigo
+        JOIN equipo e ON ae.equipo_codigo = e.codigo
+        GROUP BY u.nombre
+        ORDER BY u.nombre
+    `, (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send("Error al generar reporte");
+        }
+        res.render('reportes/asignacion_tecnico', { asignaciones: results });
+    });
+};
+
+exports.reporteEquiposEstado = (req, res) => {
+    conexion.query(`
+        SELECT e.estado, COUNT(*) AS cantidad_equipos
+        FROM equipo e
+        GROUP BY e.estado
+        HAVING e.estado IN ('INGRESADO', 'DISPONIBLE', 'EN_REPARACION', 'DESCARTADO')
+        ORDER BY FIELD(e.estado, 'INGRESADO', 'DISPONIBLE', 'EN_REPARACION', 'DESCARTADO')
+    `, (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send("Error al generar el reporte de equipos por estado");
+        }
+        res.render('reportes/equipos_estado', { estados: results });
+    });
+};
+
+exports.reporteEquiposMarca = (req, res) => {
+    const query = `
+        SELECT 
+            m.nombre AS marca, 
+            COUNT(e.marca) AS total
+        FROM equipo e
+        JOIN marca m ON e.marca = m.nombre 
+        GROUP BY e.marca
+        ORDER BY total DESC;
+    `;
+    
+    conexion.query(query, (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        res.render('reportes/equipos_marca', { equiposMarca: resultado });
+    });
+};
+
+exports.reporteEquiposTipo = (req, res) => {
+    conexion.query(`
+        SELECT te.nombre AS tipo_equipo, 
+               COUNT(e.tipo_equipo) AS total_equipos
+        FROM equipo e
+        JOIN tipo_equipo te ON e.tipo_equipo = te.nombre
+        GROUP BY te.nombre
+        ORDER BY total_equipos DESC
+    `, (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send("Error al generar reporte");
+        }
+        res.render('reportes/equipos_tipo', { equiposTipo: results });
+    });
+};
+
+
+exports.reporteUsuariosEstado = (req, res) => {
+    conexion.query(`
+        SELECT u.nombre, u.apellido, u.estado, u.tipo
+        FROM usuario u
+        ORDER BY u.estado
+    `, (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send("Error al generar reporte");
+        }
+        res.render('reportes/usuario_estado', { usuarios: results });
+    });
+};
+
+exports.reporteEstadoReparacion = (req, res) => {
+    const query = `
+       SELECT 
+    u.nombre AS tecnico,
+    ae.estado AS estado_reparacion,
+    COUNT(ae.codigo) AS total_reparaciones,
+    AVG(TIMESTAMPDIFF(DAY, ae.fecha_asignacion, IFNULL(ae.fecha_finalizacion, NOW()))) AS tiempo_promedio_dias
+    FROM 
+        asignacion_equipo ae
+    JOIN 
+        usuario u ON ae.usuario_codigo = u.codigo
+    WHERE 
+        ae.estado IN ('ACTIVO', 'FINALIZADO')
+    GROUP BY 
+        u.nombre, ae.estado
+    ORDER BY 
+    u.nombre, ae.estado;
+    `;
+    
+    conexion.query(query, (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send("Error al generar reporte");
+        }
+        res.render('reportes/estado_reparacion', { reparaciones: results });
+    });
+};
 

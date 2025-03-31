@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Equipos por Marca</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <a href="/reportes" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+    </header>
+
+    <h1>Reporte de Equipos por Marca</h1>
+
+    <a onclick="exportarPDF()" class="btn btn-success">Exportar a PDF<i class="fas fa-download"></i></a>
+    <a onclick="mostrarGrafico()" class="btn btn-info">Ver Gráfico<i class="fas fa-chart-pie"></i></a>
+
+    <div id="modalGrafico" class="modal" >
+        <div class="modal-content">
+            <span class="close" onclick="cerrarGrafico()">&times;</span>
+            <canvas id="graficoEquipos" style="width: 400px; height: 200px;"></canvas>
+        </div>
+    </div>
+
+    <table id="tablaEquipos">
+        <thead>
+            <tr>
+                <th>Marca</th>
+                <th>Total de Equipos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% equiposMarca.forEach(function(marca) { %>
+                <tr>
+                    <td><%= marca.marca %></td>
+                    <td><%= marca.total %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <script>
+        let chartInstance;
+
+        $(document).ready(function() {
+            $('#tablaEquipos').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]]
+            });
+        });
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            doc.setFontSize(16);
+            doc.text("REPORTE DE EQUIPOS POR MARCA", 105, 15, { align: "center" });
+
+            let tabla = document.getElementById("tablaEquipos");
+            let filas = tabla.querySelectorAll("tbody tr");
+            let datos = [];
+            filas.forEach(fila => {
+                let celdas = fila.querySelectorAll("td");
+                let filaDatos = [];
+                celdas.forEach(celda => filaDatos.push(celda.innerText));
+                datos.push(filaDatos);
+            });
+
+            let encabezados = [["Marca", "Total de Equipos"]];
+            doc.autoTable({ head: encabezados, body: datos, startY: 25 });
+
+            let canvas = document.getElementById("graficoEquipos");
+            let imgData = canvas.toDataURL("image/png");
+            doc.addImage(imgData, "PNG", 10, doc.autoTable.previous.finalY + 10, 180, 100);
+
+            doc.save("reporte_equipos_marca.pdf");
+        }
+
+        function mostrarGrafico() {
+    document.getElementById("modalGrafico").style.display = "block";
+
+    let marcas = [];
+    let cantidades = [];
+    let colores = [];
+
+    document.querySelectorAll("#tablaEquipos tbody tr").forEach(tr => {
+        let tds = tr.querySelectorAll("td");
+        marcas.push(tds[0].innerText);
+        cantidades.push(parseInt(tds[1].innerText));
+        colores.push(`hsl(${Math.random() * 360}, 70%, 60%)`);
+    });
+
+    let ctx = document.getElementById("graficoEquipos").getContext("2d");
+    if (chartInstance) chartInstance.destroy();
+
+    chartInstance = new Chart(ctx, {
+        type: "bar", 
+        data: {
+            labels: marcas,
+            datasets: [{
+                label: "Total de Equipos",
+                data: cantidades,
+                backgroundColor: colores
+            }]
+        },
+        options: {
+            responsive: true,
+            indexAxis: 'y', 
+            plugins: {
+                legend: { display: false } 
+            },
+            scales: {
+                x: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+        function cerrarGrafico() {
+            document.getElementById("modalGrafico").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
