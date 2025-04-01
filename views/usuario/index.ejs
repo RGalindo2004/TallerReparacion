@@ -7,6 +7,11 @@
     <title>Lista de usuarios</title>
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
 </head>
 
 <body>
@@ -21,10 +26,11 @@
         <% if (tipoUsuario === 'Administrador') { %>
             <a href="/crearusuario" class="btn btn-success">Crear usuario <i class="fas fa-user-plus"></i></a>
             <a href="/usuariosdes" class="btn btn-info">Ver usuarios desactivados <i class="fas fa-users-slash"></i></a>
+            <a class="btn btn-success" onclick="exportarPDF()">Exportar a PDF<i class="fas fa-download"></i></a>
         <% } %>
     </div>
     
-    <table class="enhanced-table">
+    <table class="enhanced-table" id="tablaUsuarios">
         <thead>
             <tr>
                 <th>Código</th>
@@ -64,6 +70,49 @@
             <% }) %>
         </tbody>
     </table>
+    <script>
+        $(document).ready(function() {
+            $('#tablaUsuarios').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]]
+            });
+        });
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+
+            doc.setFontSize(16);
+            doc.text("REPORTE DE USUARIOS", 105, 15, { align: "center" });
+
+            let tabla = document.getElementById("tablaUsuarios");
+            let filas = tabla.querySelectorAll("tbody tr");
+
+            let datos = [];
+            filas.forEach(fila => {
+                let celdas = fila.querySelectorAll("td");
+                let filaDatos = [];
+
+                for (let i = 0; i < 9; i++) {
+                    filaDatos.push(celdas[i].innerText);
+                }
+                datos.push(filaDatos);
+            });
+
+            let encabezados = [["Código", "Nombre", "Apellido", "Correo Electrónico", "Teléfono", "Fecha de nacimiento", "Género", "Estado", "Tipo"]];
+
+            doc.autoTable({
+                head: encabezados,
+                body: datos,
+                startY: 25
+            });
+
+            doc.save("usuarios.pdf");
+        }
+    </script>
 </body>
 
 </html>

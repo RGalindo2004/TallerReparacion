@@ -55,6 +55,15 @@
                 <% }); %>
         </select>
 
+        <label for="usuario">Propietario</label>
+        <select name="usuario" id="usuario">
+            <% usuario.forEach((dato)=> { %>
+                <option value="<%= dato.codigo %>">
+                    <%= dato.nombre %>
+                </option>
+                <% }); %>
+        </select>
+
         <button type="submit" class="btn btn-success">Actualizar Equipo <i class="fas fa-save"></i></button>
     </form>
 </body>

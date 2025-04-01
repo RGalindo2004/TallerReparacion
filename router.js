@@ -48,7 +48,6 @@ router.get('/menu', (req, res) => {
         return res.redirect('/'); 
     }
 
-    // Renderizar el menú y pasar el tipo de usuario a la vista
     res.render('index', { tipoUsuario: req.session.tipoUsuario });
 });
 
@@ -59,24 +58,20 @@ router.get('/logout', (req, res) => {
 const metodos = require('./controllers/me');
 
 router.get('/usuarios', (req, res) => {
-    // Verificar si el usuario tiene una sesión activa
     if (!req.session || !req.session.tipoUsuario) {
-        return res.redirect('/'); // Redirigir al login si no está autenticado
+        return res.redirect('/'); 
     }
 
-    // Verificar los permisos según el tipo de usuario
     if (req.session.tipoUsuario !== 'Administrador' && req.session.tipoUsuario !== 'Supervisor') {
         return res.status(403).send('Acceso denegado. No tienes permiso para ver esta página.');
     }
 
-    // Si el usuario es administrador o supervisor, realizar la consulta
     conexion.query("SELECT * FROM usuario WHERE estado = 'ACT'", (error, resultado) => {
         if (error) {
             console.log(error);
             return res.status(500).send('Ocurrió un error en la base de datos.');
         }
 
-        // Renderizar la vista y pasar `tipoUsuario`
         res.render('usuario/index', { usuario: resultado, tipoUsuario: req.session.tipoUsuario });
     });
 });
@@ -85,15 +80,13 @@ router.get('/usuarios', (req, res) => {
 router.get('/reportes', (req, res) => {
     res.render('reportes/index');  
 });
-// Rutas para los reportes
+
 router.get('/reportes/asignacion_tecnico', metodos.reporteAsignacionTecnico);
 router.get('/reportes/equipos_estado', metodos.reporteEquiposEstado);
 router.get('/reportes/equipos_marca', metodos.reporteEquiposMarca);
 router.get('/reportes/usuario_estado', metodos.reporteUsuariosEstado);
 router.get('/reportes/equipos_tipo', metodos.reporteEquiposTipo);
 router.get('/reportes/estado_reparacion', metodos.reporteEstadoReparacion);
-///
-
 
 router.get('/usuariosdes', (req, res) => {
     conexion.query("SELECT * FROM usuario WHERE estado = 'INA'", (error, resultado) => {
@@ -185,17 +178,17 @@ router.get('/verusuario/:id', (req, res) => {
 //EQUIPOS
 router.get('/equipos', (req, res) => {
     if (!req.session || !req.session.tipoUsuario) {
-        return res.redirect('/'); // Redirigir al login si no hay sesión activa
+        return res.redirect('/');
     }
 
     const tipoUsuario = req.session.tipoUsuario;
-    const correoUsuario = req.session.correo; // Obtener el correo electrónico del usuario autenticado
+    const correoUsuario = req.session.correo;
 
     let query = '';
     let params = [];
 
     if (tipoUsuario === 'Usuario_Final') {
-        // Mostrar solo los equipos que pertenecen al usuario
+
         query = `
             SELECT equipo.codigo, equipo.numero_serie, equipo.marca, equipo.modelo, equipo.descripcion, equipo.estado, equipo.tipo_equipo, 
                    CONCAT(usuario.nombre, ' ', usuario.apellido) AS nombre_usuario
@@ -205,7 +198,7 @@ router.get('/equipos', (req, res) => {
         `;
         params = [correoUsuario];
     } else {
-        // Mostrar todos los equipos para otros tipos de usuarios
+
         query = `
             SELECT equipo.codigo, equipo.numero_serie, equipo.marca, equipo.modelo, equipo.descripcion, equipo.estado, equipo.tipo_equipo, 
                    CONCAT(usuario.nombre, ' ', usuario.apellido) AS nombre_usuario
@@ -245,13 +238,12 @@ router.get('/crearequipo', (req, res) => {
                 }
 
                 
-                conexion.query('SELECT * FROM usuario WHERE tipo = "cliente"', (error, resultadoUsuario) => {
+                conexion.query('SELECT * FROM usuario WHERE tipo = "Usuario_Final"', (error, resultadoUsuario) => {
                     if (error) {
                         console.log(error);
                         return res.status(500).send("Error en la base de datos");
                     }
 
-                    // Renderizar la vista con los datos filtrados
                     res.render('equipo/crear', { 
                         equipo: resultadoEquipo[0], 
                         tipos: resultadoTipos, 
@@ -294,7 +286,19 @@ router.get('/actualizarequipo/:id', (req, res) => {
                     return res.status(500).send("Error en la base de datos");
                 }
 
-                res.render('equipo/actualizar', { equipo: resultadoEquipo[0], tipos: resultadoTipos, marcas: resultadoMarcas });
+                conexion.query('SELECT * FROM usuario WHERE tipo = "Usuario_Final"', (error, resultadoUsuario) => {
+                    if (error) {
+                        console.log(error);
+                        return res.status(500).send("Error en la base de datos");
+                    }
+
+                    res.render('equipo/actualizar', { 
+                        equipo: resultadoEquipo[0], 
+                        tipos: resultadoTipos, 
+                        marcas: resultadoMarcas, 
+                        usuario: resultadoUsuario 
+                    });
+                });
             });
         });
     });
