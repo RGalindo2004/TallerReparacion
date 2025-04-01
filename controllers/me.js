@@ -66,6 +66,18 @@ exports.editusuario=(req,res) => {
 }
 
 //EQUIPOS
+
+exports.ver = (req, res) => {
+    const codigo = req.params.codigo;
+    conexion.query('SELECT * FROM equipo WHERE codigo = ?', [codigo], (error, results) => {
+        if (error)
+            {
+                console.log(error);
+                return;
+            }
+        res.render('equipo/ver', { equipo: results[0]});
+    });
+};
 exports.saveequipo=(req,res) => {
     const numero_serie = req.body.numero_serie;
     const marca = req.body.marca;

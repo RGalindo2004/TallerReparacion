@@ -268,6 +268,11 @@ router.get('/crearequipo', (req, res) => {
 
 router.post('/saveequipo', metodos.saveequipo);
 
+router.get('/verequipo',(req,res)=>{
+    res.render('equipo/ver')
+})
+router.get('/verequipo/:codigo', metodos.ver);
+
 //EDITAR EQUIPO 
 router.get('/actualizarequipo/:id', (req, res) => {
     const codigo = req.params.id;

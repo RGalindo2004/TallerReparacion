@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Maquina</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<header>
+    <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
+    <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+</header>
+
+<body>
+   
+    <form>
+      
+
+        <label for="nombre">Numero de serie</label>
+        <input type="text" name="nombre" id="nombre" value="<%= equipo.numero_serie %>" readonly>
+
+        <label for="marca">Marca</label>
+        <input type="text" name="apellido" id="apellido" value="<%= equipo.marca %>" readonly>
+
+        
+        <label for="modelo">modelo</label>
+        <input type="text" name="modelo" id="modelo" value="<%= equipo.modelo %>" readonly>
+
+
+        <label for="descripcion">Descripcion</label>
+        <input type="text" name="descripcion" id="descripcion" value="<%= equipo.descripcion %>" readonly>
+
+        <label for="estado">Estado</label>
+        <input type="text" name="estado" id="estado" value="<%= equipo.estado %>" readonly>
+        
+        <label for="tipo">Tipo de Dispositivo</label>
+        <input type="text" name="tipo" id="tipo" value="<%= equipo.tipo_equipo %>" readonly>
+
+        <label for="tipo">Usuario</label>
+        <input type="text" name="usuario" id="usuario" value="<%= equipo.usuario %>" readonly>
+
+        <a href="/equipos" class="btn btn-secondary">Volver <i class="fas fa-arrow-left"></i></a>
+    </form>
+</body>
+</html>
