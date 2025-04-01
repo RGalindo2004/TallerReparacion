@@ -23,7 +23,7 @@ CREATE TABLE usuario (
 );
 
 INSERT INTO tipo_usuario (codigo, nombre) VALUES 
-(1, 'Cliente'),
+(1, 'Usuario_Final'),
 (2, 'Tecnico'),
 (3, 'Supervisor'),
 (4, 'Administrador');
