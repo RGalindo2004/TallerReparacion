@@ -17,14 +17,24 @@
 <body>
     <%- include('../partials/header') %>
 
-    <h1>Lista de equipos</h1>
-
+    <% if (tipoUsuario==='Administrador' || tipoUsuario==='Supervisor' ) { %>
+        <h1>Lista de equipos</h1>
+    <% }
+    
+    else if (tipoUsuario==='Usuario_Final') { %>
+        <h1>Mis equipos</h1>
+    <% } %>
+    
     <div class="action-buttons">
         <% if (tipoUsuario==='Administrador' || tipoUsuario==='Supervisor' ) { %>
         <a href="/crearequipo" class="btn btn-success">Crear equipo <i class="fas fa-plus"></i></a>
         <a href="/tipo_equipo" class="btn btn-info">Ver los tipos de equipos  <i class="fas fa-laptop"></i></a>
         <a href="/marca" class="btn btn-info">Ver la marca de los equipos <i class="fas fa-tag"></i></a>
         <a class="btn btn-success" onclick="exportarPDF()">Exportar a PDF<i class="fas fa-download"></i></a>
+        <% } %>
+
+        <% if (tipoUsuario==='Usuario_Final') { %>
+            <a href="/registroequipo" class="btn btn-success">Ingresar equipo <i class="fas fa-plus"></i></a>
         <% } %>
     </div>
 
@@ -73,8 +83,11 @@
                     <td>
                         <%= dato.nombre_usuario %>
                     </td>
-                    <% if (tipoUsuario==='Administrador' || tipoUsuario==='Supervisor' ) { %>
+                        <% if (tipoUsuario==='Administrador' || tipoUsuario==='Supervisor' || tipoUsuario==='Tecnico') { %>
                         <td><a href="/verequipo/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a></td>
+                        <% } %>
+                        
+                        <% if (tipoUsuario==='Administrador' || tipoUsuario==='Supervisor' ) { %>
                         <td><a href="/actualizarequipo/<%= dato.codigo %>" class="btn-action btn-edit" title="Editar"><i class="fas fa-edit"></i></a></td>
                         <td><a href="/descartarequipo/<%= dato.codigo %>" class="btn-action btn-deactivate" title="Descartar"><i class="fas fa-trash"></i></a></td>
                         <% } %>

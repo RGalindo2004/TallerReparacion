@@ -18,6 +18,8 @@
 
         <button type="submit">Iniciar sesión <i class="fa-solid fa-right-to-bracket"></i></button>
 
+        <p><a href="/registro">¿Aún no tienes cuenta? ¡Regístrate!</a></p>
+
         <% if (typeof error !== 'undefined') { %>
             <div style="color: red; margin-top: 10px;">
                 <p><%= error %></p>
@@ -25,6 +27,7 @@
         <% } %>
     </form>
 
+    <%- include('partials/footer') %>
     
 </body>
 </html>

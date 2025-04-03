@@ -11,7 +11,7 @@
 
 <body>
     <%- include('../partials/header') %>
-    <h1>Ver equipo</h1>
+    <h1>Ver equipo asignado</h1>
         <form>
             <label for="nombre">Numero de serie</label>
             <input type="text" name="nombre" id="nombre" value="<%= equipo.numero_serie %>" readonly>
@@ -37,7 +37,7 @@
             <input type="text" name="usuario" id="usuario" value="<%= equipo.nombre_usuario %>" readonly>
 
 
-            <a href="/equipos" class="btn btn-secondary">Volver <i class="fas fa-arrow-left"></i></a>
+            <a href="/asignacion_equipo" class="btn btn-secondary">Volver <i class="fas fa-arrow-left"></i></a>
         </form>
 
         <%- include('../partials/footer') %>

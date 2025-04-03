@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear equipo</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+
+    <h1>Registrar equipo</h1>
+    <form action="/saveregistroequipo" method="post">
+
+        <label for="">Número de serie</label>
+        <input type="text" name="numero_serie" id="numero_serie" required>
+
+        <label for="marca">Marca</label>
+        <select name="marca" id="marca" required>
+            <% marcas.forEach((marca)=> { %>
+                <option value="<%= marca.nombre %>">
+                    <%= marca.nombre %>
+                </option>
+                <% }); %>
+        </select>
+
+        <label for="">Modelo</label>
+        <input type="text" name="modelo" id="modelo" required>
+
+        <label for="">Descripción</label>
+        <input type="text" name="descripcion" id="descripcion" required>
+
+        <input type="hidden" name="estado" id="estado" value="INGRESADO">
+
+        <label for="tipo_equipo">Tipo de equipo</label>
+        <select name="tipo_equipo" id="tipo_equipo">
+            <% tipos.forEach((dato)=> { %>
+                <option value="<%= dato.nombre %>">
+                    <%= dato.nombre %>
+                </option>
+                <% }); %>
+        </select>
+
+        <% if (nombreUsuario) { %>
+        <input type="hidden" name="usuario" id="usuario" value="<%= usuarioCodigo %>" readonly>
+        <% } %>
+
+        <button type="submit" class="btn btn-success">Crear equipo <i class="fas fa-plus"></i></button>
+    </form>
+
+    <%- include('../partials/footer') %>
+</body>
+
+</html>

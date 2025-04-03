@@ -17,97 +17,99 @@
 <body>
     <%- include('../partials/header') %>
 
-    <h1>Asignaciones de los equipos</h1>
-    <a href="/asignacion_equipo" class="btn btn-info">Ver asignaciones activas <i class="fas fa-tools"></i></a>
-    <a class="btn btn-success" onclick="exportarPDF()">Exportar a PDF<i class="fas fa-download"></i></a>
+        <h1>Asignaciones finalizadas de los equipos</h1>
+        <a href="/asignacion_equipo" class="btn btn-info">Ver asignaciones activas <i class="fas fa-tools"></i></a>
+        <a class="btn btn-success" onclick="exportarPDF()">Exportar a PDF<i class="fas fa-download"></i></a>
 
-    <table class="enhanced-table" id="tablaAsignaciones">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Equipo</th>
-                <th>Técnico</th>
-                <th>Fecha de asignación</th>
-                <th>Fecha de finalización</th>
-                <th>Estado</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <% asignacion_equipo.forEach((dato)=>{ %>
+        <table class="enhanced-table" id="tablaAsignaciones">
+            <thead>
                 <tr>
-                    <td>
-                        <%= dato.codigo %>
-                    </td>
-                    <td>
-                        <%= dato.equipo %>
-                    </td>
-                    <td>
-                        <%= dato.tecnico %>
-                    </td>
-
-                    <td>
-                        <%= dato.fecha_asignacion %>
-                    </td>
-                    <td>
-                        <%= dato.fecha_finalizacion %>
-                    </td>
-                    <td>
-                        <%= dato.estado %>
-                    </td>
-                    <td><a href="/verasignacionfin/<%= dato.codigo %>"class="btn-action btn-view" title="Ver"><i class="fas fa-eye"></i></a></td>
-                    <td><a href="/desfinalizarasignacion/<%= dato.codigo %>"class="btn-action btn-view" title="Deshacer finalización"><i class="fas fa-tools"></i></a></td>
+                    <th>Código</th>
+                    <th>Equipo</th>
+                    <th>Técnico</th>
+                    <th>Fecha de asignación</th>
+                    <th>Fecha de finalización</th>
+                    <th>Estado</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-                <% }) %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% asignacion_equipo.forEach((dato)=>{ %>
+                    <tr>
+                        <td>
+                            <%= dato.codigo %>
+                        </td>
+                        <td>
+                            <a href="/verequipoasignado/<%= dato.codigo %>"><%= dato.equipo %></a>
+                        </td>
+                        <td>
+                            <%= dato.tecnico %>
+                        </td>
 
-    <script>
-        $(document).ready(function() {
-            $('#tablaAsignaciones').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]]
+                        <td>
+                            <%= dato.fecha_asignacion %>
+                        </td>
+                        <td>
+                            <%= dato.fecha_finalizacion %>
+                        </td>
+                        <td>
+                            <%= dato.estado %>
+                        </td>
+                        <td><a href="/verasignacionfin/<%= dato.codigo %>" class="btn-action btn-view" title="Ver"><i
+                                    class="fas fa-eye"></i></a></td>
+                        <td><a href="/desfinalizarasignacion/<%= dato.codigo %>" class="btn-action btn-view"
+                                title="Deshacer finalización"><i class="fas fa-tools"></i></a></td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+
+        <script>
+            $(document).ready(function () {
+                $('#tablaAsignaciones').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]]
+                });
             });
-        });
 
-        function exportarPDF() {
-            const { jsPDF } = window.jspdf;
-            let doc = new jsPDF();
+            function exportarPDF() {
+                const { jsPDF } = window.jspdf;
+                let doc = new jsPDF();
 
-            doc.setFontSize(16);
-            doc.text("REPORTE DE ASIGNACIONES FINALIZADAS", 105, 15, { align: "center" });
+                doc.setFontSize(16);
+                doc.text("REPORTE DE ASIGNACIONES FINALIZADAS", 105, 15, { align: "center" });
 
-            let tabla = document.getElementById("tablaAsignaciones");
-            let filas = tabla.querySelectorAll("tbody tr");
+                let tabla = document.getElementById("tablaAsignaciones");
+                let filas = tabla.querySelectorAll("tbody tr");
 
-            let datos = [];
-            filas.forEach(fila => {
-                let celdas = fila.querySelectorAll("td");
-                let filaDatos = [];
+                let datos = [];
+                filas.forEach(fila => {
+                    let celdas = fila.querySelectorAll("td");
+                    let filaDatos = [];
 
-                for (let i = 0; i < 6; i++) {
-                    filaDatos.push(celdas[i].innerText);
-                }
-                datos.push(filaDatos);
-            });
+                    for (let i = 0; i < 6; i++) {
+                        filaDatos.push(celdas[i].innerText);
+                    }
+                    datos.push(filaDatos);
+                });
 
-            let encabezados = [["Código", "Equipo", "Técnico", "Fecha de Asignación", "Fecha de Finalización", "Estado"]];
+                let encabezados = [["Código", "Equipo", "Técnico", "Fecha de Asignación", "Fecha de Finalización", "Estado"]];
 
-            doc.autoTable({
-                head: encabezados,
-                body: datos,
-                startY: 25
-            });
+                doc.autoTable({
+                    head: encabezados,
+                    body: datos,
+                    startY: 25
+                });
 
-            doc.save("asignaciones_Fin.pdf");
-        }
-    </script>
+                doc.save("asignaciones_Fin.pdf");
+            }
+        </script>
 
-<%- include('../partials/footer') %>
+        <%- include('../partials/footer') %>
 </body>
 
 </html>

@@ -15,6 +15,7 @@ router.use((req, res, next) => {
     if (req.session.correo) {
         res.locals.nombreUsuario = req.session.nombreUsuario;
         res.locals.tipoUsuario = req.session.tipoUsuario;
+        res.locals.usuarioCodigo = req.session.usuarioCodigo;
     }
     next();
 });
@@ -32,6 +33,7 @@ router.post('/login', (req, res) => {
                 req.session.correo = usuario.correoelectronico;
                 req.session.nombreUsuario = `${usuario.nombre} ${usuario.apellido}`;
                 req.session.tipoUsuario = usuario.tipo;
+                req.session.usuarioCodigo = usuario.codigo;
                 return res.redirect('/menu');
             }
         }
@@ -52,6 +54,7 @@ router.get('/logout', (req, res) => {
 });
 
 const metodos = require('./controllers/me');
+const { render } = require('ejs');
 
 router.get('/usuarios', (req, res) => {
     if (!req.session || !req.session.tipoUsuario) {
@@ -171,6 +174,30 @@ router.get('/verusuario/:id', (req, res) => {
     });
 });
 
+//REGISTRO
+router.get('/registro', (_, res) => {
+    res.render('registro/usuario');
+} );
+router.post('/saveregistro', metodos.saveregistro);
+
+router.get('/registroequipo', (req, res) => {
+    conexion.query('SELECT * FROM tipo_equipo', (error, resultadoTipos) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send("Error en la base de datos");
+        }
+
+        conexion.query('SELECT * FROM marca', (error, resultadoMarcas) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).send("Error en la base de datos");
+            }    
+            res.render('registro/equipo', { tipos: resultadoTipos, marcas: resultadoMarcas });
+        });
+    });
+});
+router.post('/saveregistroequipo', metodos.saveregistroequipo);
+
 //EQUIPOS
 router.get('/equipos', (req, res) => {
     if (!req.session || !req.session.tipoUsuario) {
@@ -256,9 +283,30 @@ router.get('/crearequipo', (req, res) => {
 
 router.post('/saveequipo', metodos.saveequipo);
 
-router.get('/verequipo',(req,res)=>{
-    res.render('equipo/ver')
-})
+router.get('/verequipo/:codigo', (req, res) => {
+    const codigoEquipo = req.params.codigo;
+
+    const query = `
+        SELECT equipo.numero_serie, equipo.marca, equipo.modelo, equipo.descripcion, equipo.estado, equipo.tipo_equipo, 
+               CONCAT(usuario.nombre, ' ', usuario.apellido) AS nombre_usuario
+        FROM equipo
+        JOIN usuario ON usuario.codigo = equipo.usuario
+        WHERE equipo.codigo = ?
+    `;
+
+    conexion.query(query, [codigoEquipo], (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send("Error en la base de datos");
+        }
+
+        if (resultado.length === 0) {
+            return res.status(404).send("Equipo no encontrado");
+        }
+
+        res.render('equipo/ver', { equipo: resultado[0] });
+    });
+});
 router.get('/verequipo/:codigo', metodos.ver);
 
 //EDITAR EQUIPO 
@@ -482,6 +530,32 @@ router.get('/asignacion_equipofin', (req, res) => {
         res.render('asignacion_equipo/indexfin', { asignacion_equipo: resultado });
     });
 });
+
+router.get('/verequipoasignado/:codigo', (req, res) => {
+    const codigoEquipo = req.params.codigo;
+
+    const query = `
+        SELECT equipo.numero_serie, equipo.marca, equipo.modelo, equipo.descripcion, equipo.estado, equipo.tipo_equipo, 
+               CONCAT(usuario.nombre, ' ', usuario.apellido) AS nombre_usuario
+        FROM equipo
+        JOIN usuario ON usuario.codigo = equipo.usuario
+        WHERE equipo.codigo = ?
+    `;
+
+    conexion.query(query, [codigoEquipo], (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send("Error en la base de datos");
+        }
+
+        if (resultado.length === 0) {
+            return res.status(404).send("Equipo no encontrado");
+        }
+
+        res.render('asignacion_equipo/verequipo', { equipo: resultado[0] });
+    });
+});
+router.get('/verequipo/:codigo', metodos.ver);
 
 router.get('/crearasignacion', (req, res) => {
     conexion.query('SELECT codigo, CONCAT(marca," ", modelo, " - ", numero_serie) AS equipo FROM equipo WHERE estado = "INGRESADO"',

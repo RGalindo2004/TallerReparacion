@@ -65,8 +65,47 @@ exports.editusuario=(req,res) => {
     });
 }
 
-//EQUIPOS
+//REGISTRO
+exports.saveregistro=(req,res) => {
 
+    const nombre = req.body.nombre;
+    const apellido = req.body.apellido;
+    const correoelectronico = req.body.correoelectronico;
+    const contrasena = req.body.contrasena;
+    const telefono = req.body.telefono;
+    const fecha_nacimiento = req.body.fecha_nacimiento;
+    const genero = req.body.genero;
+    const estado = "ACT";
+    const tipo = "Usuario_Final";
+
+    conexion.query('INSERT INTO usuario SET ?',{nombre:nombre,apellido:apellido,correoelectronico:correoelectronico,contrasena:contrasena,telefono:telefono,fecha_nacimiento:fecha_nacimiento, genero:genero, estado:estado,tipo:tipo},(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/');
+        }
+    });
+}
+
+exports.saveregistroequipo=(req,res) => {
+    const numero_serie = req.body.numero_serie;
+    const marca = req.body.marca;
+    const modelo = req.body.modelo;
+    const descripcion = req.body.descripcion;
+    const estado = req.body.estado;
+    const tipo_equipo = req.body.tipo_equipo;
+    const usuario = req.body.usuario;
+
+    conexion.query('INSERT INTO equipo SET ?',{numero_serie:numero_serie,marca:marca,modelo:modelo,descripcion:descripcion,estado:estado, tipo_equipo:tipo_equipo, usuario:usuario},(error,results)=>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/equipos');
+        }
+    });
+}
+
+//EQUIPOS
 exports.ver = (req, res) => {
     const codigo = req.params.codigo;
     conexion.query('SELECT * FROM equipo WHERE codigo = ?', [codigo], (error, results) => {
