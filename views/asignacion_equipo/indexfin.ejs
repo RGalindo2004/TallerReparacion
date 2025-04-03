@@ -15,10 +15,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Asignaciones de los equipos</h1>
     <a href="/asignacion_equipo" class="btn btn-info">Ver asignaciones activas <i class="fas fa-tools"></i></a>
@@ -109,6 +106,8 @@
             doc.save("asignaciones_Fin.pdf");
         }
     </script>
+
+<%- include('../partials/footer') %>
 </body>
 
 </html>

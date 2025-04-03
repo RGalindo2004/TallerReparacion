@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-</header>
+<%- include('../partials/header') %>
 
 <body>
     <h1>Ver la asignación del equipo (<%= asignacion_equipo.codigo %>)</h1>
@@ -46,6 +43,8 @@
 
         <a href="/asignacion_equipofin" class="btn btn-secondary">Volver <i class="fas fa-arrow-left"></i></a>
     </form>
+
+    <%- include('../partials/footer') %>
 </body>
 
 </html>

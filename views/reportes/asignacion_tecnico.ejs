@@ -14,12 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<header>
-    <a href="/reportes" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-    <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-</header>
-
 <body>
+    <%- include('../partials/header') %>
+
     <h1>Reporte de Asignación de Equipos por Técnico</h1>
     <a class="btn btn-success" onclick="exportarPDF()">Exportar a PDF<i class="fas fa-download"></i></a>
     <a class="btn btn-info" onclick="mostrarGrafico()">Ver Gráfico<i class="fas fa-chart-pie"></i></a>
@@ -125,6 +122,8 @@
             document.getElementById("modalGrafico").style.display = "none";
         }
     </script>
+
+<%- include('../partials/footer') %>
 </body>
 
 </html>

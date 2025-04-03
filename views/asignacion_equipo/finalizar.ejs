@@ -10,10 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Finalizar la asignación del equipo (<%= asignacion_equipo.codigo %>)</h1>
     <form action="/endasignacion_equipo" method="post">
@@ -48,6 +45,8 @@
         <button type="submit" class="logout-btn">Finalizar asignacion de equipo <i class="fas fa-user-slash"></i></button>
         <a href="/asignacion_equipo" class="btn btn-secondary">Cancelar <i class="fas fa-arrow-left"></i></i></a>
     </form>
+
+    <%- include('../partials/footer') %>
 </body>
 
 </html>

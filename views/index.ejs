@@ -10,10 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <div></div>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('partials/header') %>
 
     <h1>Menú Principal</h1>
     <div class="menu-container">
@@ -29,7 +26,9 @@
             <a href="/equipos"><i class="fas fa-laptop"></i> Ver Equipos</a>
         <% } %>
     </div>
+    
+    <%- include('partials/footer-menu') %>
+    
 </body>
 
 </html>
-```

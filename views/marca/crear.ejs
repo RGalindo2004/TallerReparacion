@@ -10,11 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
-
+    <%- include('../partials/header') %>
 
     <h1>Crear la marca del equipo</h1>
     <form action="/savemarca" method="post">
@@ -24,6 +20,8 @@
 
         <button type="submit" class="btn btn-success">Crear la marca del equipo <i class="fas fa-plus"></i></button>
     </form>
+
+    <%- include('../partials/footer') %>
 </body>
 
 </html>

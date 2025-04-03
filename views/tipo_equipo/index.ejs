@@ -15,10 +15,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Lista de tipos equipos</h1>
 
@@ -98,6 +95,8 @@
             doc.save("tipos_equipos.pdf");
         }
     </script>
+
+<%- include('../partials/footer') %>
 </body>
 
 </html>

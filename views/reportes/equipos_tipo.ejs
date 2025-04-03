@@ -16,11 +16,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/reportes" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
-
+    <%- include('../partials/header') %>
     <h1>Reporte de Equipos por Tipo</h1>
 
     <a onclick="exportarPDF()" class="btn btn-success">Exportar a PDF<i class="fas fa-download"></i></a>
@@ -137,6 +133,8 @@
             document.getElementById("modalGrafico").style.display = "none";
         }
     </script>
+
+<%- include('../partials/footer') %>
 </body>
 
 </html>

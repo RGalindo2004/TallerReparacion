@@ -10,10 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Desactivar usuario de <%= usuario.nombre %>
             <%= usuario.apellido %> (<%= usuario.codigo %>)</h1>
@@ -40,6 +37,8 @@
         <button type="submit" class="logout-btn">Desactivar <i class="fas fa-clipboard-check"></i></button>
         <a href="/usuarios" class="btn btn-secondary">Cancelar <i class="fas fa-arrow-left"></i></a>
     </form>
+
+    <%- include('../partials/footer') %>
 </body>
 
 </html>

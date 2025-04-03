@@ -1,0 +1,17 @@
+<header>
+    <% if (nombreUsuario) { %>
+        <div class="user-badge">
+            <div class="user-avatar">
+                <%= nombreUsuario.charAt(0).toUpperCase() %>
+            </div>
+            <div class="user-info">
+                <p class="user-name"><%= nombreUsuario %></p>
+                <p class="user-role"><%= tipoUsuario %></p>
+            </div>
+        </div>
+        
+        <a href="/logout" class="logout-btn">
+            Cerrar sesión <i class="fas fa-sign-out-alt"></i>
+        </a>
+    <% } %>
+</header>

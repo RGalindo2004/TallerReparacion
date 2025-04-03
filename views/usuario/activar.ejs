@@ -10,10 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Activar usuario de <%= usuario.nombre %>
             <%= usuario.apellido %> (<%= usuario.codigo %>)</h1>
@@ -40,6 +37,9 @@
         <button type="submit" class="btn btn-success">Activar <i class="fas fa-plus"></i></button>
         <a href="/usuariosdes">Cancelar</a>
     </form>
+
+    <%- include('../partials/footer') %>
 </body>
+
 
 </html>

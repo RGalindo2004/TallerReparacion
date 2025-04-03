@@ -1,16 +1,19 @@
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #E6E6FA;
+    margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #ddd;
+    color: #333;
 }
 
-.bienvenida h2 {
-    margin: 0;
-    font-size: 20px;
-    color: #333;
+h1 {
+    color: white;
+    text-align: center;
+    padding: 20px;
+    background-color: #4169E1;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .menu-container {
@@ -45,40 +48,89 @@ header {
     text-align: center;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 100;
+    border-bottom: none;
+}
+
+.welcome-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.welcome-message {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+
 .logout-btn {
-    display: inline-block;
-    background-color: #f44336;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255, 0, 0, 0.5);
     color: white;
     padding: 10px 20px;
-    text-align: center;
+    border-radius: 30px;
     text-decoration: none;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
 }
 
 .logout-btn:hover {
-    background-color: #d32f2f;
+    background-color: rgba(255, 0, 0, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #E6E6FA;
-    margin: 0;
-    padding: 20px;
-    color: #333;
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-h1 {
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
-    text-align: center;
-    padding: 20px;
-    background-color: #4169E1;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
 }
 
 a {
@@ -188,22 +240,6 @@ input[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
-a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: blueviolet;
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-    margin-left: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-a:hover {
-    background-color: blueviolet;
-    transform: translateY(-2px);
-}
-
 .btn-action {
     display: inline-flex;
     align-items: center;
@@ -294,4 +330,54 @@ a:hover {
     float: right;
     font-size: 24px;
     cursor: pointer;
+}
+
+footer {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 25px 5%;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nombre-equipo {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin: 10px 0;
+}
+
+.nombre-equipo span {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.footer-copyright {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-top: 10px;
+}
+
+.btn-back {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.2);
 }

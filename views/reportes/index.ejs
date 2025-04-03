@@ -10,10 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Menú de reportes</h1>
     <div class="menu-container">
@@ -24,6 +21,8 @@
         <a href="/reportes/usuario_estado"><i class="fas fa-user-check"></i>Usuarios Activos</a>
         <a href="/reportes/estado_reparacion"><i class="fas fa-wrench"></i>Estado de Reparación</a>
     </div>
+
+    <%- include('../partials/footer') %>
 </body>
 
 </html>

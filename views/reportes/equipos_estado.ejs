@@ -16,10 +16,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/reportes" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Reporte de Equipos por Estado</h1>
 
@@ -127,6 +124,8 @@
             doc.save("reporte_equipos_estado.pdf");
         }
     </script>
+
+<%- include('../partials/footer') %>
 </body>
 
 </html>

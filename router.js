@@ -3,7 +3,6 @@ const router = express.Router();
 const conexion = require('./database/db');
 const session = require('express-session');
 
-
 router.use(session({
     secret: 'mi_secreto_super_secreto',
     resave: false,
@@ -11,37 +10,34 @@ router.use(session({
     cookie: { secure: false } 
 }));
 
+//PARA OBTENER EL NOMBRE Y APELLIDO DEL USUARIO
+router.use((req, res, next) => {
+    if (req.session.correo) {
+        res.locals.nombreUsuario = req.session.nombreUsuario;
+        res.locals.tipoUsuario = req.session.tipoUsuario;
+    }
+    next();
+});
+
 router.get('/', (req, res) => {
     res.render('login');
 });
+
 router.post('/login', (req, res) => {
     const { correo, contrasena } = req.body;
-
-    const query = 'SELECT * FROM usuario WHERE correoelectronico = ? AND estado = "ACT"';
-    conexion.query(query, [correo], (error, resultado) => {
-        if (error) {
-            console.log(error);
-            return res.render('login', { error: 'Error en la base de datos' });
-        }
-
+    conexion.query('SELECT * FROM usuario WHERE correoelectronico = ?', [correo], (error, resultado) => {
         if (resultado.length > 0) {
             const usuario = resultado[0];
-
             if (usuario.contrasena === contrasena) {
-          
-                req.session.tipoUsuario = usuario.tipo;
                 req.session.correo = usuario.correoelectronico;
-
+                req.session.nombreUsuario = `${usuario.nombre} ${usuario.apellido}`;
+                req.session.tipoUsuario = usuario.tipo;
                 return res.redirect('/menu');
-            } else {
-                return res.render('login', { error: 'Usuario o contraseña incorrectos' });
             }
-        } else {
-            return res.render('login', { error: 'Usuario o contraseña incorrectos' });
         }
+        res.render('login', { error: 'Credenciales incorrectas' });
     });
 });
-
 
 router.get('/menu', (req, res) => {
     if (!req.session.tipoUsuario) {

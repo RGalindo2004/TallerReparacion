@@ -10,10 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Crear equipo</h1>
     <form action="/deleteequipo" method="post">
@@ -40,6 +37,8 @@
 
         <button type="submit" class="logout-btn">Descartar equipo <i class="fas fa-trash-alt"></i></button>
     </form>
+
+    <%- include('../partials/footer') %>
 </body>
 
 </html>

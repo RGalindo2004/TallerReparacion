@@ -7,16 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<header>
-    <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-    <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-</header>
+<%- include('../partials/header') %>
 
 <body>
+    <%- include('partials/header') %>
    
     <form>
-      
-
         <label for="nombre">Numero de serie</label>
         <input type="text" name="nombre" id="nombre" value="<%= equipo.numero_serie %>" readonly>
 
@@ -42,5 +38,7 @@
 
         <a href="/equipos" class="btn btn-secondary">Volver <i class="fas fa-arrow-left"></i></a>
     </form>
+
+    <%- include('../partials/footer') %>
 </body>
 </html>

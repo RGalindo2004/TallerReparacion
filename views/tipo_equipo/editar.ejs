@@ -10,10 +10,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/menu" class="btn btn-secondary">Volver al menú <i class="fas fa-arrow-left"></i></a>
-        <a href="/logout" class="logout-btn">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
-    </header>
+    <%- include('../partials/header') %>
 
     <h1>Editar el equipo (<%= tipo_equipo.codigo %>)</h1>
     <form action="/edittipoequipo" method="post">
@@ -25,6 +22,8 @@
 
         <button type="submit" class="btn btn-success">Editar el tipo de equipo <i class="fas fa-save"></i></button>
     </form>
+
+    <%- include('../partials/footer') %>
 </body>
 
 </html>
