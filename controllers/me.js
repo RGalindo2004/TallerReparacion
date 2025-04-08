@@ -1,8 +1,10 @@
 const conexion = require('../database/db');
 
 //USUARIOS
-exports.saveusuario=(req,res) => {
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
+exports.saveusuario = (req, res) => {
     const nombre = req.body.nombre;
     const apellido = req.body.apellido;
     const correoelectronico = req.body.correoelectronico;
@@ -13,38 +15,55 @@ exports.saveusuario=(req,res) => {
     const estado = "ACT";
     const tipo = req.body.tipo;
 
-    conexion.query('INSERT INTO usuario SET ?',{nombre:nombre,apellido:apellido,correoelectronico:correoelectronico,contrasena:contrasena,telefono:telefono,fecha_nacimiento:fecha_nacimiento, genero:genero, estado:estado,tipo:tipo},(error,results)=>{
-        if(error){
-            console.log(error);
-        }else{
-            res.redirect('/usuarios');
+    bcrypt.hash(contrasena, saltRounds, (err, hashedPassword) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error al encriptar la contraseña');
         }
+
+        conexion.query('INSERT INTO usuario SET ?', {
+            nombre: nombre,
+            apellido: apellido,
+            correoelectronico: correoelectronico,
+            contrasena: hashedPassword,
+            telefono: telefono,
+            fecha_nacimiento: fecha_nacimiento,
+            genero: genero,
+            estado: estado,
+            tipo: tipo
+        }, (error, results) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).send('Error al guardar el usuario');
+            }
+            res.redirect('/usuarios');
+        });
     });
 }
 
-exports.disableusuario=(req,res) => {
+exports.disableusuario = (req, res) => {
     const codigo = req.body.codigo;
-    conexion.query('UPDATE usuario SET estado = "INA" WHERE codigo = ?',[codigo],(error,results)=>{
-        if(error){
+    conexion.query('UPDATE usuario SET estado = "INA" WHERE codigo = ?', [codigo], (error, results) => {
+        if (error) {
             console.log(error);
-        }else{
+        } else {
             res.redirect('/usuariosdes');
         }
     });
 }
 
-exports.enableusuario=(req,res) => {
+exports.enableusuario = (req, res) => {
     const codigo = req.body.codigo;
-    conexion.query('UPDATE usuario SET estado = "ACT" WHERE codigo = ?',[codigo],(error,results)=>{
-        if(error){
+    conexion.query('UPDATE usuario SET estado = "ACT" WHERE codigo = ?', [codigo], (error, results) => {
+        if (error) {
             console.log(error);
-        }else{
+        } else {
             res.redirect('/usuarios');
         }
     });
 }
 
-exports.editusuario=(req,res) => {
+exports.editusuario = (req, res) => {
     const codigo = req.body.codigo;
     const nombre = req.body.nombre;
     const apellido = req.body.apellido;
@@ -56,18 +75,39 @@ exports.editusuario=(req,res) => {
     const estado = req.body.estado;
     const tipo = req.body.tipo;
 
-    conexion.query('UPDATE usuario SET nombre = ?, apellido = ?, correoelectronico = ?, contrasena = ?, telefono = ?, fecha_nacimiento = ?, genero = ?, estado = ?, tipo = ? WHERE codigo = ?',[nombre,apellido,correoelectronico,contrasena,telefono,fecha_nacimiento,genero,estado,tipo,codigo],(error,results)=>{
-        if(error){
-            console.log(error);
-        }else{
-            res.redirect('/usuarios');
-        }
-    });
+    if (contrasena) {
+        bcrypt.hash(contrasena, saltRounds, (err, hashedPassword) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send('Error al encriptar la contraseña');
+            }
+
+            conexion.query('UPDATE usuario SET nombre = ?, apellido = ?, correoelectronico = ?, contrasena = ?, telefono = ?, fecha_nacimiento = ?, genero = ?, estado = ?, tipo = ? WHERE codigo = ?',
+                [nombre, apellido, correoelectronico, hashedPassword, telefono, fecha_nacimiento, genero, estado, tipo, codigo],
+                (error, results) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        res.redirect('/usuarios');
+                    }
+                });
+        });
+    } else {
+        conexion.query('UPDATE usuario SET nombre = ?, apellido = ?, correoelectronico = ?, telefono = ?, fecha_nacimiento = ?, genero = ?, estado = ?, tipo = ? WHERE codigo = ?',
+            [nombre, apellido, correoelectronico, telefono, fecha_nacimiento, genero, estado, tipo, codigo],
+            (error, results) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    res.redirect('/usuarios');
+                }
+            });
+    }
 }
 
-//REGISTRO
-exports.saveregistro=(req,res) => {
 
+//REGISTRO
+exports.saveregistro = (req, res) => {
     const nombre = req.body.nombre;
     const apellido = req.body.apellido;
     const correoelectronico = req.body.correoelectronico;
@@ -78,14 +118,32 @@ exports.saveregistro=(req,res) => {
     const estado = "ACT";
     const tipo = "Usuario_Final";
 
-    conexion.query('INSERT INTO usuario SET ?',{nombre:nombre,apellido:apellido,correoelectronico:correoelectronico,contrasena:contrasena,telefono:telefono,fecha_nacimiento:fecha_nacimiento, genero:genero, estado:estado,tipo:tipo},(error,results)=>{
-        if(error){
-            console.log(error);
-        }else{
-            res.redirect('/');
+    bcrypt.hash(contrasena, saltRounds, (err, hashedPassword) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error al encriptar la contraseña');
         }
+
+        conexion.query('INSERT INTO usuario SET ?', {
+            nombre: nombre,
+            apellido: apellido,
+            correoelectronico: correoelectronico,
+            contrasena: hashedPassword,
+            telefono: telefono,
+            fecha_nacimiento: fecha_nacimiento,
+            genero: genero,
+            estado: estado,
+            tipo: tipo
+        }, (error, results) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).send('Error al guardar el usuario');
+            }
+
+            res.redirect('/');
+        });
     });
-}
+};
 
 exports.saveregistroequipo=(req,res) => {
     const numero_serie = req.body.numero_serie;

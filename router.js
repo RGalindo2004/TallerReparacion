@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const conexion = require('./database/db');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 router.use(session({
     secret: 'mi_secreto_super_secreto',
@@ -26,26 +27,43 @@ router.get('/', (req, res) => {
 
 router.post('/login', (req, res) => {
     const { correo, contrasena } = req.body;
+
     conexion.query('SELECT * FROM usuario WHERE correoelectronico = ?', [correo], (error, resultado) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send('Error al consultar el usuario');
+        }
+
         if (resultado.length > 0) {
             const usuario = resultado[0];
-            if (usuario.contrasena === contrasena) {
-                req.session.correo = usuario.correoelectronico;
-                req.session.nombreUsuario = `${usuario.nombre} ${usuario.apellido}`;
-                req.session.tipoUsuario = usuario.tipo;
-                req.session.usuarioCodigo = usuario.codigo;
-                return res.redirect('/menu');
-            }
+
+            bcrypt.compare(contrasena, usuario.contrasena, (err, isMatch) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send('Error al verificar la contraseña');
+                }
+
+                if (isMatch) {
+                    req.session.correo = usuario.correoelectronico;
+                    req.session.nombreUsuario = `${usuario.nombre} ${usuario.apellido}`;
+                    req.session.tipoUsuario = usuario.tipo;
+                    req.session.usuarioCodigo = usuario.codigo;
+
+                    return res.redirect('/menu');
+                } else {
+                    return res.render('login', { error: 'Credenciales incorrectas' });
+                }
+            });
+        } else {
+            return res.render('login', { error: 'Credenciales incorrectas' });
         }
-        res.render('login', { error: 'Credenciales incorrectas' });
     });
 });
 
 router.get('/menu', (req, res) => {
     if (!req.session.tipoUsuario) {
-        return res.redirect('/'); 
+        return res.redirect('/');
     }
-
     res.render('index', { tipoUsuario: req.session.tipoUsuario });
 });
 
@@ -87,6 +105,7 @@ router.get('/reportes/usuario_estado', metodos.reporteUsuariosEstado);
 router.get('/reportes/equipos_tipo', metodos.reporteEquiposTipo);
 router.get('/reportes/estado_reparacion', metodos.reporteEstadoReparacion);
 
+//USUARIO
 router.get('/usuariosdes', (req, res) => {
     conexion.query("SELECT * FROM usuario WHERE estado = 'INA'", (error, resultado) => {
         if (error) {

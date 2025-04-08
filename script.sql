@@ -12,7 +12,7 @@ CREATE TABLE usuario (
     nombre VARCHAR(30) NOT NULL UNIQUE,
     apellido VARCHAR(30) NOT NULL,
     correoelectronico VARCHAR(30) NOT NULL,
-    contrasena VARCHAR(30) NOT NULL,
+    contrasena VARCHAR(250) NOT NULL,
     telefono VARCHAR(30) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     genero ENUM('M', 'F') NOT NULL,
@@ -29,7 +29,7 @@ INSERT INTO tipo_usuario (codigo, nombre) VALUES
 (4, 'Administrador');
 
 INSERT INTO usuario (codigo, nombre, apellido, correoelectronico, contrasena, telefono, fecha_nacimiento, genero, estado, tipo) 
-VALUES (1, 'Admin', 'Admin', 'admin@admin.com', 'password', '12345678', '1990-01-01', 'M', 'ACT', 'Administrador');
+VALUES (1, 'Admin', 'Admin', 'admin@admin.com', '$2b$10$IzngbmansZx8M7RXBAZFsum3WwKmETv2i7c7eZw/rixI7ylf2sxdG', '12345678', '1990-01-01', 'M', 'ACT', 'Administrador');
 
 CREATE TABLE tipo_equipo (
     codigo INT PRIMARY KEY AUTO_INCREMENT,
@@ -55,8 +55,6 @@ CREATE TABLE equipo (
     CONSTRAINT fk_marca FOREIGN KEY (marca) REFERENCES marca(nombre) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_usuario FOREIGN KEY (usuario) REFERENCES usuario(codigo) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-
 
 INSERT INTO tipo_equipo (codigo, nombre) VALUES 
 (1, 'Laptop'),

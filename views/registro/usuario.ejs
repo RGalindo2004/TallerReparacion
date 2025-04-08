@@ -10,9 +10,8 @@
 </head>
 
 <body>
-
     <h1>Crear cuenta</h1>
-    <form action="/saveregistro" method="post">
+    <form action="/saveregistro" method="post" onsubmit="return validatePasswords()">
 
         <label for="">Nombre</label>
         <input type="text" name="nombre" id="nombre" required>
@@ -25,6 +24,9 @@
 
         <label for="">Contraseña</label>
         <input type="password" name="contrasena" id="contrasena" required>
+
+        <label for="">Confirmar Contraseña</label>
+        <input type="password" name="confirmar_contrasena" id="confirmar_contrasena" required>
 
         <label for="">Telefono</label>
         <input type="tel" name="telefono" id="telefono" required>
@@ -42,6 +44,21 @@
     </form>
 
     <%- include('../partials/footer') %>
+
+        <script>
+            function validatePasswords() {
+                console.log("Validando contraseñas...");
+                const password = document.getElementById("contrasena").value;
+                const confirmPassword = document.getElementById("confirmar_contrasena").value;
+
+                if (password !== confirmPassword) {
+                    alert("Las contraseñas no coinciden.");
+                    return false;
+                }
+                return true;
+            }
+
+        </script>
 </body>
 
 </html>
