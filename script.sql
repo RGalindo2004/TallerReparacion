@@ -29,7 +29,7 @@ INSERT INTO tipo_usuario (codigo, nombre) VALUES
 (4, 'Administrador');
 
 INSERT INTO usuario (codigo, nombre, apellido, correoelectronico, contrasena, telefono, fecha_nacimiento, genero, estado, tipo) 
-VALUES (1, 'Admin', 'Admin', 'admin@admin.com', '$2b$10$IzngbmansZx8M7RXBAZFsum3WwKmETv2i7c7eZw/rixI7ylf2sxdG', '12345678', '1990-01-01', 'M', 'ACT', 'Administrador');
+VALUES (1, 'Admin', 'Admin', 'admin@admin.com', '$2b$10$IzngbmansZx8M7RXBAZFsum3WwKmETv2i7c7eZw/rixI7ylf2sxdG', '12345678', '1990-01-01', 'M', 'ACT', 'Administrador'); -- Contraseña: password
 
 CREATE TABLE tipo_equipo (
     codigo INT PRIMARY KEY AUTO_INCREMENT,
