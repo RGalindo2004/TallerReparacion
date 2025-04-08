@@ -68,7 +68,13 @@ router.get('/menu', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    res.redirect('/');
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Error al cerrar sesión');
+        }
+        res.redirect('/');
+    });
 });
 
 const metodos = require('./controllers/me');
