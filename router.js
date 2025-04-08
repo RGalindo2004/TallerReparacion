@@ -77,10 +77,31 @@ router.get('/logout', (req, res) => {
     });
 });
 
+function verificarAutenticacion(req, res, next) {
+    if (req.session && req.session.correo) {
+        return next();
+    } else {
+        return res.redirect('/');
+    }
+}
+
 const metodos = require('./controllers/me');
 const { render } = require('ejs');
 
-router.get('/usuarios', (req, res) => {
+//REPORTES
+router.get('/reportes', (req, res) => {
+    res.render('reportes/index');  
+});
+
+router.get('/reportes/asignacion_tecnico', metodos.reporteAsignacionTecnico);
+router.get('/reportes/equipos_estado', metodos.reporteEquiposEstado);
+router.get('/reportes/equipos_marca', metodos.reporteEquiposMarca);
+router.get('/reportes/usuario_estado', metodos.reporteUsuariosEstado);
+router.get('/reportes/equipos_tipo', metodos.reporteEquiposTipo);
+router.get('/reportes/estado_reparacion', metodos.reporteEstadoReparacion);
+
+//USUARIO
+router.get('/usuarios', verificarAutenticacion, (req, res) => {
     if (!req.session || !req.session.tipoUsuario) {
         return res.redirect('/'); 
     }
@@ -99,20 +120,7 @@ router.get('/usuarios', (req, res) => {
     });
 });
 
-//REPORTES
-router.get('/reportes', (req, res) => {
-    res.render('reportes/index');  
-});
-
-router.get('/reportes/asignacion_tecnico', metodos.reporteAsignacionTecnico);
-router.get('/reportes/equipos_estado', metodos.reporteEquiposEstado);
-router.get('/reportes/equipos_marca', metodos.reporteEquiposMarca);
-router.get('/reportes/usuario_estado', metodos.reporteUsuariosEstado);
-router.get('/reportes/equipos_tipo', metodos.reporteEquiposTipo);
-router.get('/reportes/estado_reparacion', metodos.reporteEstadoReparacion);
-
-//USUARIO
-router.get('/usuariosdes', (req, res) => {
+router.get('/usuariosdes', verificarAutenticacion, (req, res) => {
     conexion.query("SELECT * FROM usuario WHERE estado = 'INA'", (error, resultado) => {
         if (error) {
             console.log(error);
@@ -123,7 +131,7 @@ router.get('/usuariosdes', (req, res) => {
     });
 });
 
-router.get('/crearusuario', (req, res) => {
+router.get('/crearusuario', verificarAutenticacion, (req, res) => {
     conexion.query('SELECT * FROM usuario', (error, resultadoUsuario) => {
         if (error) {
             console.log(error);
@@ -142,7 +150,7 @@ router.get('/crearusuario', (req, res) => {
 });
 router.post('/saveusuario', metodos.saveusuario);
 
-router.get('/desactivarusuario/:id', (req, res) => {
+router.get('/desactivarusuario/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
     conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultado) => {
         if (error) {
@@ -154,7 +162,7 @@ router.get('/desactivarusuario/:id', (req, res) => {
 });
 router.post('/disableusuario', metodos.disableusuario);
 
-router.get('/activarusuario/:id', (req, res) => {
+router.get('/activarusuario/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
     conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultado) => {
         if (error) {
@@ -166,7 +174,7 @@ router.get('/activarusuario/:id', (req, res) => {
 });
 router.post('/enableusuario', metodos.enableusuario);
 
-router.get('/editarusuario/:id', (req, res) => {
+router.get('/editarusuario/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
     conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultadoUsuario) => {
         if (error) {
@@ -188,7 +196,7 @@ router.get('/editarusuario/:id', (req, res) => {
 router.post('/editusuario', metodos.editusuario);
 
 
-router.get('/verusuario/:id', (req, res) => {
+router.get('/verusuario/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
     conexion.query('SELECT * FROM usuario WHERE codigo = ?', [codigo], (error, resultado) => {
         if (error) {
@@ -224,7 +232,7 @@ router.get('/registroequipo', (req, res) => {
 router.post('/saveregistroequipo', metodos.saveregistroequipo);
 
 //EQUIPOS
-router.get('/equipos', (req, res) => {
+router.get('/equipos', verificarAutenticacion, (req, res) => {
     if (!req.session || !req.session.tipoUsuario) {
         return res.redirect('/');
     }
@@ -266,7 +274,7 @@ router.get('/equipos', (req, res) => {
     });
 });
 
-router.get('/crearequipo', (req, res) => {
+router.get('/crearequipo', verificarAutenticacion, (req, res) => {
     conexion.query('SELECT * FROM equipo', (error, resultadoEquipo) => {
         if (error) {
             console.log(error);
@@ -308,7 +316,7 @@ router.get('/crearequipo', (req, res) => {
 
 router.post('/saveequipo', metodos.saveequipo);
 
-router.get('/verequipo/:codigo', (req, res) => {
+router.get('/verequipo/:codigo', verificarAutenticacion, (req, res) => {
     const codigoEquipo = req.params.codigo;
 
     const query = `
@@ -332,10 +340,10 @@ router.get('/verequipo/:codigo', (req, res) => {
         res.render('equipo/ver', { equipo: resultado[0] });
     });
 });
-router.get('/verequipo/:codigo', metodos.ver);
+router.get('/verequipo/:codigo', verificarAutenticacion, metodos.ver);
 
 //EDITAR EQUIPO 
-router.get('/actualizarequipo/:id', (req, res) => {
+router.get('/actualizarequipo/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
     conexion.query('SELECT * FROM equipo WHERE codigo = ?', [codigo], (error, resultadoEquipo) => {
         if (error) {
@@ -375,7 +383,7 @@ router.get('/actualizarequipo/:id', (req, res) => {
 
 router.post('/actualizarequipo', metodos.actualizarequipo);
 
-router.get('/descartarequipo/:id', (req, res) => {
+router.get('/descartarequipo/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query('SELECT * FROM equipo WHERE codigo = ?', [codigo], (error, resultado) => {
@@ -389,7 +397,7 @@ router.get('/descartarequipo/:id', (req, res) => {
 router.post('/deleteequipo', metodos.deleteequipo);
 
 //TIPOS DE EQUIPOS
-router.get('/tipo_equipo', (req, res) => {
+router.get('/tipo_equipo', verificarAutenticacion, (req, res) => {
     conexion.query("SELECT * FROM tipo_equipo", (error, resultado) => {
         if (error) {
             console.log(error);
@@ -400,13 +408,13 @@ router.get('/tipo_equipo', (req, res) => {
     });
 });
 
-router.get('/creartipoequipo', (req, res) => {
+router.get('/creartipoequipo', verificarAutenticacion, (req, res) => {
     res.render('tipo_equipo/crear');
 });
 
 router.post('/savetipoequipo', metodos.savetipoequipo);
 
-router.get('/eliminartipoequipo/:id', (req, res) => {
+router.get('/eliminartipoequipo/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query('SELECT * FROM tipo_equipo WHERE codigo = ?', [codigo], (error, resultado) => {
@@ -419,7 +427,7 @@ router.get('/eliminartipoequipo/:id', (req, res) => {
 });
 router.post('/deletetipoequipo', metodos.deletetipoequipo);
 
-router.get('/editartipoequipo/:id', (req, res) => {
+router.get('/editartipoequipo/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query('SELECT * FROM tipo_equipo WHERE codigo = ?', [codigo], (error, resultado) => {
@@ -433,7 +441,7 @@ router.get('/editartipoequipo/:id', (req, res) => {
 router.post('/edittipoequipo', metodos.edittipoequipo);
 
 //MARCA DE EQUIPOS
-router.get('/marca', (req, res) => {
+router.get('/marca', verificarAutenticacion, (req, res) => {
     conexion.query("SELECT * FROM marca", (error, resultado) => {
         if (error) {
             console.log(error);
@@ -444,13 +452,13 @@ router.get('/marca', (req, res) => {
     });
 });
 
-router.get('/crearmarca', (req, res) => {
+router.get('/crearmarca', verificarAutenticacion, (req, res) => {
     res.render('marca/crear');
 });
 
 router.post('/savemarca', metodos.savemarca);
 
-router.get('/eliminarmarca/:id', (req, res) => {
+router.get('/eliminarmarca/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query('SELECT * FROM marca WHERE codigo = ?', [codigo], (error, resultado) => {
@@ -463,7 +471,7 @@ router.get('/eliminarmarca/:id', (req, res) => {
 });
 router.post('/deletemarca', metodos.deletemarca);
 
-router.get('/editarmarca/:id', (req, res) => {
+router.get('/editarmarca/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query('SELECT * FROM marca WHERE codigo = ?', [codigo], (error, resultado) => {
@@ -477,7 +485,7 @@ router.get('/editarmarca/:id', (req, res) => {
 router.post('/editmarca', metodos.editmarca);
 
 //ASIGNACIÓN DE EQUIPOS
-router.get('/asignacion_equipo', (req, res) => {
+router.get('/asignacion_equipo', verificarAutenticacion, (req, res) => {
     if (!req.session || !req.session.tipoUsuario) {
         return res.redirect('/'); 
     }
@@ -532,34 +540,58 @@ router.get('/asignacion_equipo', (req, res) => {
     });
 });
 
+router.get('/asignacion_equipofin', verificarAutenticacion, (req, res) => {
+    const tipoUsuario = req.session.tipoUsuario;
+    const usuarioCodigo = req.session.usuarioCodigo;
+    let query = '';
+    let params = [];
 
-router.get('/asignacion_equipofin', (req, res) => {
-    const query = `
-        SELECT 
-            a.codigo, 
-            CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
-            CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
-            e.codigo AS equipocodigo,
-            a.fecha_asignacion,
-            a.fecha_finalizacion, 
-            a.estado
-        FROM asignacion_equipo a
-        JOIN equipo e ON a.equipo_codigo = e.codigo
-        JOIN usuario u ON a.usuario_codigo = u.codigo
-        WHERE a.estado = 'FINALIZADO' AND u.tipo = 'Tecnico'
-    `;
+    if (tipoUsuario === 'Tecnico') {
+        // Solo ve sus asignaciones finalizadas
+        query = `
+            SELECT 
+                a.codigo, 
+                CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
+                CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
+                e.codigo AS equipocodigo,
+                a.fecha_asignacion,
+                a.fecha_finalizacion, 
+                a.estado
+            FROM asignacion_equipo a
+            JOIN equipo e ON a.equipo_codigo = e.codigo
+            JOIN usuario u ON a.usuario_codigo = u.codigo
+            WHERE a.estado = 'FINALIZADO' AND u.codigo = ?
+        `;
+        params = [usuarioCodigo];
+    } else {
+        query = `
+            SELECT 
+                a.codigo, 
+                CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
+                CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
+                e.codigo AS equipocodigo,
+                a.fecha_asignacion,
+                a.fecha_finalizacion, 
+                a.estado
+            FROM asignacion_equipo a
+            JOIN equipo e ON a.equipo_codigo = e.codigo
+            JOIN usuario u ON a.usuario_codigo = u.codigo
+            WHERE a.estado = 'FINALIZADO' AND u.tipo = 'Tecnico'
+        `;
+    }
 
-    conexion.query(query, (error, resultado) => {
+    conexion.query(query, params, (error, resultado) => {
         if (error) {
             console.log(error);
-            return;
+            return res.status(500).send('Error al obtener las asignaciones finalizadas');
         }
 
-        res.render('asignacion_equipo/indexfin', { asignacion_equipo: resultado });
+        res.render('asignacion_equipo/indexfin', { asignacion_equipo: resultado, tipoUsuario });
     });
 });
 
-router.get('/verequipoasignado/:codigo', (req, res) => {
+
+router.get('/verequipoasignado/:codigo', verificarAutenticacion, (req, res) => {
     const codigoEquipo = req.params.codigo;
 
     const query = `
@@ -583,9 +615,9 @@ router.get('/verequipoasignado/:codigo', (req, res) => {
         res.render('asignacion_equipo/verequipo', { equipo: resultado[0] });
     });
 });
-router.get('/verequipo/:codigo', metodos.ver);
+router.get('/verequipo/:codigo', verificarAutenticacion, metodos.ver);
 
-router.get('/crearasignacion', (req, res) => {
+router.get('/crearasignacion', verificarAutenticacion, (req, res) => {
     conexion.query('SELECT codigo, CONCAT(marca," ", modelo, " - ", numero_serie) AS equipo FROM equipo WHERE estado = "INGRESADO"',
         (errorEquipos, equipos) => {
             if (errorEquipos) {
@@ -606,7 +638,7 @@ router.get('/crearasignacion', (req, res) => {
 });
 router.post('/saveasignacion_equipo', metodos.saveasignacion_equipo);
 
-router.get('/verasignacion/:id', (req, res) => {
+router.get('/verasignacion/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query(`
@@ -635,7 +667,7 @@ router.get('/verasignacion/:id', (req, res) => {
         });
 });
 
-router.get('/verasignacionfin/:id', (req, res) => {
+router.get('/verasignacionfin/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query(`
@@ -664,7 +696,7 @@ router.get('/verasignacionfin/:id', (req, res) => {
         });
 });
 
-router.get('/editarasignacion/:id', (req, res) => {
+router.get('/editarasignacion/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query(`
@@ -714,7 +746,7 @@ router.get('/editarasignacion/:id', (req, res) => {
 });
 router.post('/editasignacion_equipo', metodos.editasignacion_equipo);
 
-router.get('/finalizarasignacion/:id', (req, res) => {
+router.get('/finalizarasignacion/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query(`
@@ -764,7 +796,7 @@ router.get('/finalizarasignacion/:id', (req, res) => {
 });
 router.post('/endasignacion_equipo', metodos.endasignacion_equipo);
 
-router.get('/desfinalizarasignacion/:id', (req, res) => {
+router.get('/desfinalizarasignacion/:id', verificarAutenticacion, (req, res) => {
     const codigo = req.params.id;
 
     conexion.query(`

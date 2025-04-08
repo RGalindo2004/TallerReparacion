@@ -47,7 +47,7 @@
         <tbody>
             <% asignacion_equipo.forEach((dato) => { %>
                 <tr>
-                    <td>a<%= dato.codigo %></td>
+                    <td><%= dato.codigo %></td>
                     <td><a href="/verequipoasignado/<%= dato.equipocodigo %>"><%= dato.equipo %></a></td>
                     <td><%= dato.tecnico %></td>
                     <td><%= dato.fecha_asignacion %></td>
