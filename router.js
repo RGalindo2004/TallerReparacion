@@ -547,7 +547,6 @@ router.get('/asignacion_equipofin', verificarAutenticacion, (req, res) => {
     let params = [];
 
     if (tipoUsuario === 'Tecnico') {
-        // Solo ve sus asignaciones finalizadas
         query = `
             SELECT 
                 a.codigo, 
