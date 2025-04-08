@@ -486,7 +486,8 @@ router.get('/asignacion_equipo', (req, res) => {
         query = `
             SELECT 
                 a.codigo, 
-                CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
+                CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo,
+                e.codigo AS equipocodigo, 
                 CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
                 a.fecha_asignacion,
                 a.fecha_finalizacion, 
@@ -502,7 +503,8 @@ router.get('/asignacion_equipo', (req, res) => {
         query = `
             SELECT 
                 a.codigo, 
-                CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
+                CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo,
+                e.codigo AS equipocodigo, 
                 CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
                 a.fecha_asignacion,
                 a.fecha_finalizacion, 
@@ -531,6 +533,7 @@ router.get('/asignacion_equipofin', (req, res) => {
             a.codigo, 
             CONCAT(e.marca,' ',e.modelo,' - ', e.numero_serie) AS equipo, 
             CONCAT(u.nombre, ' ', u.apellido) AS tecnico,
+            e.codigo AS equipocodigo,
             a.fecha_asignacion,
             a.fecha_finalizacion, 
             a.estado
